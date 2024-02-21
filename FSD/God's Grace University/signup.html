@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <title>Sign Up</title>
+    <style>
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p, h2 {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signup-form" action="" method="post">
+            <!-- <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required> -->
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" autocomplete="username" required>
+            <span class="error-message" id="email-error">Please enter a valid email address.</span><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <span class="error-message" id="password-error">Password should be at least 8 characters long and match.</span><br><br>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+<!-- 
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" name="contact" required>
+            <span class="error-message" id="contact-error">Please enter a 10-digit phone number.</span> -->
+
+            <input type="hidden" id="user_id" name="user_id" value=""><br><br>
+
+            <input type="submit" value="Sign Up">
+
+        </form>
+        <p>Already have an account? <a href="login.html">Log In</a></p>
+    </div>
+
+    <script>
+        (function(){
+            emailjs.init("Jhqult0pXdj8tlKDA"); // Replace with your Email.js user ID
+
+            // Function to validate and send email
+            function validateAndSendEmail(event) {
+                event.preventDefault(); // Prevent the form from submitting
+
+                // const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                //const contact = document.getElementById('contact').value;
+
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/;
+                //const contactPattern = /^\d{10}$/;
+
+                let valid = true;
+
+                // Validate email format
+                if (!emailPattern.test(email)) {
+                    valid = false;
+                    document.getElementById('email-error').style.display = 'block';
+                } else {
+                    document.getElementById('email-error').style.display = 'none';
+                }
+
+                // Validate password
+                if (!passwordPattern.test(password)) {
+                    valid = false;
+                    document.getElementById('password-error').style.display = 'block';
+                } else {
+                    document.getElementById('password-error').style.display = 'none';
+                }
+
+                // Compare passwords
+                if (password !== confirmPassword) {
+                    valid = false;
+                    document.getElementById('password-error').textContent = "Passwords do not match.";
+                    document.getElementById('password-error').style.display = 'block';
+                }
+
+                // Validate 10-digit phone number
+                // if (!contactPattern.test(contact)) {
+                //    valid = false;
+                  //  document.getElementById('contact-error').style.display = 'block';
+                //} else {
+                  //  document.getElementById('contact-error').style.display = 'none';
+                //}
+
+                if (valid) {
+                    sendEmail(email);
+                }
+            }
+
+            // Function to send email
+            function sendEmail(email) { // name, , contact
+                const userData = {
+                    // name,
+                    email,
+                    //contact,
+                };
+
+                emailjs.send("service_a4f3mo8", "template_mx2owhz", userData)
+                    .then(function(response) {
+                        alert('Thank You for Registering. Please check your email!');
+                        resetForm();
+                    })
+                    .catch(function(error) {
+                        console.error('Email sending failed:', error);
+                        alert('Email sending failed');
+                    });
+            }
+
+            // Function to reset the form
+            function resetForm() {
+                // document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('confirm-password').value = '';
+                // document.getElementById('contact').value = '';
+            }
+
+            // Add event listener to the register button
+            document.getElementById('signup-form').addEventListener('submit', validateAndSendEmail);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Invoice</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #carImage {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Invoice</h1>
+        <label for="carModel">Select a Car Model:</label>
+        <select id="carModel">
+            <option value="Audi">Audi</option>
+            <option value="Maserati">Maserati</option>
+            <option value="BMW">BMW</option>
+            <option value="Lamborghini">Lamborghini</option>
+            <option value="Benz">Benz</option>
+            <option value="Porsche">Porsche</option>
+            <option value="Ford">Ford</option>
+            <option value="Rolls-Royce">Rolls-Royce</option>
+        </select>
+
+        <h2>Car Details:</h2>
+        <p id="carDescription"></p>
+        <p id="carDetails"></p>
+        <p id="carPrice"></p>
+        <p id="carEngine"></p>
+        <p id="carMaxSpeed"></p>
+        <img id="carImage" src="" alt="Car Image">
+
+        <button id="generateInvoice">Generate Invoice</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // Your JavaScript code here
+        const carData = {
+            "Audi": {
+                description: "Luxury sedan with impressive performance.",
+                details: "Year: 2023, Color: Silver",
+                price: "$60,000",
+                engine: "V6",
+                maxSpeed: "155 mph",
+                imageSrc: "audi.jpg"
+            },
+            "Maserati": {
+                description: "Italian sports car known for its style and speed.",
+                details: "Year: 2023, Color: Blue",
+                price: "$90,000",
+                engine: "V8",
+                maxSpeed: "187 mph",
+                imageSrc: "maserati.jpg"
+            },
+            "BMW": {
+                description: "German luxury car with advanced technology.",
+                details: "Year: 2023, Color: Black",
+                price: "$50,000",
+                engine: "Inline-6",
+                maxSpeed: "155 mph",
+                imageSrc: "bmw.jpg"
+            },
+            "Lamborghini": {
+                description: "Exotic supercar with breathtaking speed and design.",
+                details: "Year: 2023, Color: Red",
+                price: "$250,000",
+                engine: "V12",
+                maxSpeed: "217 mph",
+                imageSrc: "lamborghini.jpg"
+            },
+            "Benz": {
+                description: "Iconic luxury car brand known for its elegance.",
+                details: "Year: 2023, Color: Silver",
+                price: "$70,000",
+                engine: "V8",
+                maxSpeed: "155 mph",
+                imageSrc: "benz.jpg"
+            },
+            "Porsche": {
+                description: "High-performance sports car with precision engineering.",
+                details: "Year: 2023, Color: Yellow",
+                price: "$80,000",
+                engine: "Flat-6",
+                maxSpeed: "182 mph",
+                imageSrc: "porsche.jpg"
+            },
+            "Ford": {
+                description: "American automaker offering a wide range of vehicles.",
+                details: "Year: 2023, Color: Blue",
+                price: "$40,000",
+                engine: "EcoBoost",
+                maxSpeed: "130 mph",
+                imageSrc: "ford.jpg"
+            },
+            "Rolls-Royce": {
+                description: "Ultra-luxurious British car known for its opulence.",
+                details: "Year: 2023, Color: White",
+                price: "$300,000",
+                engine: "V12",
+                maxSpeed: "155 mph",
+                imageSrc: "rolls-royce.jpg"
+            }
+            // Add more car data here
+        };
+
+
+        const carModelSelect = document.getElementById("carModel");
+        const carDescription = document.getElementById("carDescription");
+        const carDetails = document.getElementById("carDetails");
+        const carPrice = document.getElementById("carPrice");
+        const carEngine = document.getElementById("carEngine");
+        const carMaxSpeed = document.getElementById("carMaxSpeed");
+        const carImage = document.getElementById("carImage");
+        const generateInvoiceButton = document.getElementById("generateInvoice");
+
+        carModelSelect.addEventListener("change", () => {
+            const selectedCarModel = carModelSelect.value;
+            const selectedCarData = carData[selectedCarModel];
+            
+            if (selectedCarData) {
+                carDescription.textContent = selectedCarData.description;
+                carDetails.textContent = selectedCarData.details;
+                carPrice.textContent = `Price: ${selectedCarData.price}`;
+                carEngine.textContent = `Engine: ${selectedCarData.engine}`;
+                carMaxSpeed.textContent = `Max Speed: ${selectedCarData.maxSpeed}`;
+                carImage.src = selectedCarData.imageSrc;
+            }
+        });
+
+    
+        generateInvoiceButton.addEventListener("click", () => {
+            const selectedCarModel = carModelSelect.value;
+            const selectedCarData = carData[selectedCarModel];
+
+            if (selectedCarData) {
+                // Create an element to hold the invoice content
+                const invoiceContainer = document.createElement("div");
+                invoiceContainer.innerHTML = `
+                    <h2>Invoice</h2>
+                    <p>Car Model: ${selectedCarModel}</p>
+                    <p>Description: ${selectedCarData.description}</p>
+                    <p>Details: ${selectedCarData.details}</p>
+                    <p>Price: ${selectedCarData.price}</p>
+                    <p>Engine: ${selectedCarData.engine}</p>
+                    <p>Max Speed: ${selectedCarData.maxSpeed}</p>
+                `;
+
+                // Use html2pdf to convert the invoice container to a PDF
+                const pdfOptions = { margin: 10, filename: "invoice.pdf" };
+                html2pdf().from(invoiceContainer).set(pdfOptions).save();
+
+                // Display a success message (optional)
+                alert("Invoice PDF has been generated and downloaded.");
+            }
+        });
+        
+    </script>
+    
+</body>
+</html>

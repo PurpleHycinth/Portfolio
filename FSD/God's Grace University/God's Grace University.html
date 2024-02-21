@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>God's Grace University</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+      .h1{
+          color: black;
+      }
+  </style>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+    <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+      <a href="#home" class="w3-bar-item w3-button"><b>God's</b> Grace University</a>
+      <!-- Float links to the right. Hide them on small screens -->
+      <div class="w3-right w3-hide-small">
+        <div class="w3-dropdown-click">
+          <button onclick="toggleDropdown('academicsDropdown')" class="w3-button">Academics <i class="fa fa-caret-down"></i></button>
+          <div id="academicsDropdown" class="w3-dropdown-content w3-bar-block w3-card">
+            <button onclick="toggleDropdown('academicsDropdown')" class="w3-button">Undergraduate <i class="fa fa-caret-down"></i></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card">
+                <a href="#data-science" class="w3-bar-item w3-button">Data Science</a>
+                <a href="#economics-analytics" class="w3-bar-item w3-button">Economics and Analytics</a>
+            </div>
+            </button>
+            <a href="#postgraduate" class="w3-bar-item w3-button">Postgraduate <i class="fa fa-caret-right"></i></a>
+            <div class="w3-dropdown-content w3-bar-block w3-card">
+                <a href="#data-science" class="w3-bar-item w3-button">Data Science</a>
+                <a href="#economics-analytics" class="w3-bar-item w3-button">Economics and Analytics</a>
+            </div>
+            <div class="w3-dropdown-click">
+              <a href="#departments" class="w3-bar-item w3-button">Departments <i class="fa fa-caret-right"></i></a>
+              <div class="w3-dropdown-content w3-bar-block w3-card">
+                <a href="#department1" class="w3-bar-item w3-button">Department 1</a>
+                <a href="#department2" class="w3-bar-item w3-button">Department 2</a>
+              </div>
+            </div>
+            <a href="#faculty" class="w3-bar-item w3-button">Faculty</a>
+          </div>
+        </div>
+        <a href="#about" class="w3-bar-item w3-button">About Us</a>
+        <a href="#contact" class="w3-bar-item w3-button">Contact</a>
+      </div>
+    </div>
+  </div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="bg_image.jpg" alt="Old Building" width="1500" height="800">
+  <div class="w3-display-middle w3-margin-top w3-center">
+    <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>GOD's</b></span> <span class="w3-hide-small w3-text-light-grey">Grace University</span></h1>
+  </div>
+</header>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32" id="about">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">About</h3>
+    <p>Grace College and Grace Theological Seminary both have a rich history as partners in higher education. Since its founding, Grace Theological Seminary has become a prominent center for master’s and doctoral study in evangelical ministry and theology for students from around the world. Likewise, Grace College in Indiana, a liberal arts college, has grown to its current position of academic prominence, offering more than 100 majors, minors, and concentrations in the arts and sciences, behavioral sciences, business, education and ministry studies.
+    </p>
+  </div>
+
+  <div class="w3-row-padding w3-grayscale">
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="CEO.jpg" alt="John" style="width:100%">
+      <h3>Andrew Tate</h3>
+      <p class="w3-opacity">CEO & Founder</p>
+      <p>Emory Andrew Tate III is an American-British media personality, businessman, and former professional kickboxer. He began practising kickboxing in 2005 and gained his first championship in 2009. He attracted wider attention in 2016 when he appeared on the British reality show Big Brother.</p>
+      <p><button class="w3-button w3-light-grey w3-block">Contact</button></p>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="director.jpg" alt="Jane" style="width:100%">
+      <h3>Micheal Jackson</h3>
+      <p class="w3-opacity">Director</p>
+      <p>Michael Joseph Jackson was an American singer, songwriter, dancer, and philanthropist. Known as the "King of Pop", he is regarded as one of the most significant cultural figures of the 20th century.</p>
+      <p><button class="w3-button w3-light-grey w3-block">Contact</button></p>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="prinicipal.jpg" alt="Mike" style="width:100%">
+      <h3>Rudolf Hilter</h3>
+      <p class="w3-opacity">Head of Department</p>
+      <p>Adolf Hitler was an Austrian-born German politician who was the dictator of Germany from 1933 until his suicide in 1945. He rose to power as the leader of the Nazi Party, becoming the chancellor in 1933 and then taking the title of Führer und Reichskanzler in 1934.</p>
+      <p><button class="w3-button w3-light-grey w3-block">Contact</button></p>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="HOD.jpg" alt="Dan" style="width:100%">
+      <h3>Rakhi Sawant</h3>
+      <p class="w3-opacity">Academic Coordinate</p>
+      <p>Rakhi Sawant is an Indian dancer, model, actress and television talk show host, who has appeared in many Hindi and a few Kannada, Marathi, Odia, Telugu and Tamil films. She was a contestant on the first season of the Indian reality television series Bigg Boss 1 and a challenger and finalist in Bigg Boss 14.</p>
+      <p><button class="w3-button w3-light-grey w3-block">Contact</button></p>
+    </div>
+  </div>
+
+  <!-- Project Section -->
+    <div class="w3-container w3-padding-32" id="projects">
+        <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Courses</h3>
+    </div>
+
+    <div class="w3-row-padding">
+        <div class="w3-col l3 m6 w3-margin-bottom">
+        <div class="w3-display-container">
+            <div class="w3-display-topleft w3-black w3-padding">Ethics</div>
+            <img src="ethics.jpg" alt="House" style="width:100%; height: 270px;">
+        </div>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+        <div class="w3-display-container">
+            <div class="w3-display-topleft w3-black w3-padding">Patience</div>
+            <img src="patience.jpg" alt="House" style="width:100%; height: 270px;">
+        </div>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+        <div class="w3-display-container">
+            <div class="w3-display-topleft w3-black w3-padding">Revolt</div>
+            <img src="revolt.jpg" alt="House" style="width:100%; height: 270px;">
+        </div>
+        </div>
+            
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-32" id="contact">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contact</h3>
+    <p>Let's get in touch and talk about your next project.</p>
+    <form action="mailto:youremail@example.com" method="post" enctype="text/plain">
+        <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+        <input class="w3-input w3-section w3-border" type="text" placeholder="Email" required name="Email">
+        <input class="w3-input w3-section w3-border" type="text" placeholder="Subject" required name="Subject">
+        <textarea class="w3-input w3-section w3-border" placeholder="Comment" required name="Comment"></textarea>
+        <button class="w3-button w3-black w3-section" type="submit">
+            <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+    </form>
+</div>
+  
+<!-- Image of location/map -->
+<div class="w3-container">
+  <img src="end.jpg" class="w3-image" style="width:100%">
+</div>
+<!-- Add links to login and signup pages -->
+<div style="display:inline-block;">
+  <a href="login.html" class="w3-button w3-black w3-section">Login</a>
+  <a href="signup.html" class="w3-button w3-black w3-section">Signup</a>
+</div>
+<!-- End page content -->
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Powered by <a href="Swarali.html" title="W3.CSS" target="_blank" class="w3-hover-text-green">Swarali</a></p>
+</footer>
+    <script>
+        function toggleDropdown(id) {
+            var dropdown = document.getElementById(id);
+            if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+            } else {
+            dropdown.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!-- todo_project/todo_app/templates/image_view.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image View</title>
+</head>
+<body>
+    <h1>Image View</h1>
+
+    {% for task in all_tasks %}
+        <h2>{{ task.title }}</h2>
+        {% if task.image %}
+            <img src="{{ task.image.url }}" alt="{{ task.title }} Image" style="max-width: 300px;">
+        {% else %}
+            <p>No image available for this task.</p>
+        {% endif %}
+        <hr>
+    {% endfor %}
+
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+</body>
+</html>

@@ -1,0 +1,958 @@
+<html>
+    <head>
+        <title>DunDunDunCar</title>
+        <style>
+            body {
+                background-image: url('bg_car.jpg');
+                background-color: #363535; /* Used if the image is unavailable */
+               /* height: 500px; /* You must set a specified height */
+                /*background-position: center; /* Center the image */
+                background-repeat: no-repeat; /* Do not repeat the image */
+                background-size: cover; 
+                opacity: 0.7;
+              }
+
+            :root {
+                --color-text: rgb(1, 1, 68);
+                --color-bg: rgb(66, 65, 62);
+                --color-bg-accent: #aeaca9;
+                --size: clamp(10rem, 1rem + 40vmin, 30rem);
+                --gap: calc(var(--size) / 14);
+                --duration: 60s;
+                --scroll-start: 0;
+                --scroll-end: calc(-100% - var(--gap));
+                --transition: opacity (0.2);
+              }
+              
+              @media (prefers-color-scheme: dark) {
+                :root {
+                  --color-text: papayawhip;
+                  --color-bg: navy;
+                  --color-bg-accent: #2626a0;
+                }
+              }
+              
+              * {
+                box-sizing: border-box;
+              }
+              
+              body {
+                display: grid;
+                align-content: center;
+                overflow: hidden;
+                gap: var(--gap);
+                width: 100%;
+                min-height: 100vh;
+                font-family: system-ui, sans-serif;
+                font-size: 1rem;
+                line-height: 1.5;
+                color: var(--color-text);
+                background-color: var(--color-bg);
+              }
+              
+              .marquee {
+                display: flex;
+                overflow: hidden;
+                user-select: none;
+                gap: var(--gap);
+                mask-image: linear-gradient(
+                  var(--mask-direction, to right),
+                  hsl(0 0% 0% / 0),
+                  hsl(0 0% 0% / 1) 20%,
+                  hsl(0 0% 0% / 1) 80%,
+                  hsl(0 0% 0% / 0)
+                );
+              }
+              
+              .marquee__group {
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                gap: var(--gap);
+                min-width: 100%;
+                animation: scroll-x var(--duration) linear infinite;
+              }
+              
+              @media (prefers-reduced-motion: reduce) {
+                .marquee__group {
+                  animation-play-state: paused;
+                }
+              }
+              
+              .marquee--vertical {
+                --mask-direction: to bottom;
+              }
+              
+              .marquee--vertical,
+              .marquee--vertical .marquee__group {
+                flex-direction: column;
+              }
+              
+              .marquee--vertical .marquee__group {
+                animation-name: scroll-y;
+              }
+              
+              .marquee--reverse .marquee__group {
+                animation-direction: reverse;
+                animation-delay: -3s;
+              }
+              
+              @keyframes scroll-x {
+                from {
+                  transform: translateX(var(--scroll-start));
+                }
+                to {
+                  transform: translateX(var(--scroll-end));
+                }
+              }
+              
+              @keyframes scroll-y {
+                from {
+                  transform: translateY(var(--scroll-start));
+                }
+                to {
+                  transform: translateY(var(--scroll-end));
+                }
+              }
+              
+              /* Element styles */
+              .marquee svg {
+                display: grid;
+                place-items: center;
+                width: var(--size);
+                fill: var(--color-text);
+                background: var(--color-bg-accent);
+                aspect-ratio: 16/9;
+                padding: calc(var(--size) / 10);
+                border-radius: 0.5rem;
+              }
+              
+              .marquee--vertical svg {
+                aspect-ratio: 1;
+                width: calc(var(--size) / 1.5);
+                padding: calc(var(--size) / 6);
+              }
+              
+              /* Parent wrapper */
+              .wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: var(--gap);
+                margin: auto;
+                max-width: 100vw;
+              }
+              
+              .wrapper--vertical {
+                flex-direction: row;
+                height: 100vh;
+              }
+              
+              /* Toggle direction button */
+              .toggle {
+                --size: 3rem;
+                position: relative;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                width: var(--size);
+                height: var(--size);
+                font: inherit;
+                text-align: center;
+                cursor: pointer;
+                outline: none;
+                border: none;
+                border-radius: 50%;
+                color: inherit;
+                background-color: var(--color-bg-accent);
+                z-index: 1;
+              }
+              
+              .toggle:focus-visible {
+                box-shadow: 0 0 0 2px var(--color-text);
+              }
+              
+              .toggle span {
+                position: absolute;
+                display: inline-block;
+                top: 50%;
+                left: calc(100% + 0.4em);
+                width: fit-content;
+                white-space: nowrap;
+                transform: translateY(-50%);
+                animation: fade 400ms 4s ease-out forwards;
+                user-select: none;
+              }
+              
+              .toggle svg {
+                --size: 1.5rem;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: var(--size);
+                height: var(--size);
+                fill: currentcolor;
+                transform: translate(-50%, -50%);
+                transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1);
+              }
+              
+              .toggle--vertical svg {
+                transform: translate(-50%, -50%) rotate(-90deg);
+              }
+              
+              @keyframes fade {
+                to {
+                  opacity: 0;
+                  visibility: hidden;
+                }
+              }
+            *,body {
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Open Sans;
+            }
+
+            :root {
+            --primary_color: #243c72;
+            --dark_blue: #021b51;
+            --yellow: #ffc057;
+
+            --container_width: 100%;
+            --container_padding: 15px;
+            --container_left_space: calc((100% - var(--container_width)) / 2);
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+            :root {
+                --container_width: 760px;
+            }
+            }
+            @media (min-width: 992px) and (max-width: 1199px) {
+            :root {
+                --container_width: 1000px;
+            }
+            }
+            @media (min-width: 1200px) {
+            :root {
+                --container_width: 1190px;
+            }
+            }
+            @media (min-width: 1400px) {
+            :root {
+                --container_width: 1190px;
+            }
+            }
+
+            /* container start */
+            .container {
+            max-width: var(--container_width);
+            width: 100%;
+            padding-inline: var(--container_padding);
+            margin: auto;
+            box-sizing: border-box;
+            }
+
+            .container_left {
+            margin-left: calc(var(--container_left_space));
+            padding-left: var(--container_padding);
+            box-sizing: border-box;
+            }
+
+            .container_right {
+            margin-right: calc(var(--container_left_space));
+            padding-right: var(--container_padding);
+            box-sizing: border-box;
+            }
+            /* container end */
+
+            .d_flex {
+            display: flex;
+            }
+            .dark_bg {
+            background-color: var(--dark_blue);
+            }
+            .dark_bg * {
+            color: #fff;
+            }
+
+            header {
+            background-color: #fff;
+            position: sticky;
+            position: -webkit-sticky;
+            top: -85px;
+            }
+            header .container {
+            max-width: calc(var(--container_width) + 80px);
+            padding: 18px 15px;
+            }
+            .header_flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            }
+            .header_flex .social_links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            }
+            .social_links a {
+            display: flex;
+            }
+            .social_links img {
+            width: 24px;
+            }
+            .gap_26 {
+            gap: 28px;
+            }
+            .header_flex .contact_links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            }
+            .contact_icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            }
+            .contact_icon a {
+            font-weight: 300;
+            text-decoration: none;
+            color: var(--primary_color);
+            }
+
+            nav .container {
+            padding: 0 15px;
+            }
+            nav ul {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            gap: 32px;
+            }
+            nav li {
+            position: relative;
+            }
+            nav li a {
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            padding: 10px 0;
+            position: relative;
+            transition: 0.3s;
+            }
+            nav li a:hover {
+            opacity: 0.7;
+            }
+            nav li a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 4px;
+            width: 100%;
+            background-color: var(--yellow);
+            }
+
+            .burger {
+            display: none;
+            }
+            .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            background: rgba(0, 0, 0, 0.7);
+            transition: all 0.35s ease-in-out;
+            }
+
+            @media (max-width: 1024px) {
+            header {
+                box-shadow: 0 4px 6px #0000001a;
+            }
+            .burger {
+                display: flex;
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                flex-direction: column;
+                gap: 6px;
+                justify-content: center;
+            }
+            .burger_line {
+                width: 32px;
+                height: 3px;
+                background-color: #000;
+                display: block;
+                transition: 0.3s;
+            }
+            .burger.active .burger_line:nth-child(1) {
+                transform: translateY(9px) rotate(-45deg);
+            }
+            .burger.active .burger_line:nth-child(2) {
+                opacity: 0;
+            }
+            .burger.active .burger_line:nth-child(3) {
+                transform: translateY(-9px) rotate(45deg);
+            }
+            nav {
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 70vw;
+                transform: translateX(-100%);
+                transition: 0.3s;
+                z-index: 999;
+            }
+            nav.active {
+                transform: translateX(0);
+            }
+            .overlay.active {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 16px;
+                padding: 12px 30px;
+            }
+            .contact_links,
+            .social_links,
+            .header_cta {
+                display: none !important;
+            }
+            }
+
+            @media (max-width: 767px) {
+            .logo {
+                width: 140px;
+            }
+            }
+
+            /* button start */
+            .btn_one {
+            display: inline-block;
+            background-color: var(--primary_color);
+            border: 2px solid var(--primary_color);
+            color: #fff;
+            padding: 8px 40px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            }
+            .btn_one:hover {
+            background-color: #fff;
+            color: var(--primary_color);
+            }
+            /* button end */
+
+            /* dropdown start */
+            .has_sub_menu {
+            position: relative;
+            padding-right: 20px;
+            }
+            .has_sub_menu::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 3px;
+            bottom: 0;
+            margin: auto;
+            background-image: url(https://sudip-bhowmick.github.io/images/img/dropdown.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 12px;
+            height: 12px;
+            }
+            .sub_menu {
+            display: none;
+            background-color: var(--dark_blue);
+            position: absolute;
+            left: 0;
+            top: 42px;
+            flex-direction: column;
+            gap: 0;
+            padding: 8px 20px;
+            white-space: nowrap;
+            border-radius: 0px 0px 8px 8px;
+            }
+            .sub_menu.show {
+            display: flex;
+            }
+            @media (max-width: 1024px) {
+            .sub_menu {
+                position: relative;
+                top: 0;
+            }
+            }
+            /* dropdown end */
+
+                  /* Reset some default styles */
+            body, h1, h2, p {
+              margin: 0;
+              padding: 0;
+            }
+
+            body {
+              font-family: Arial, sans-serif;
+              background-color: var(--color-bg);
+              color: var(--color-text);
+              overflow: hidden; /* Hide scroll bars initially */
+            }
+
+            h1, h2 {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+
+            /* Style for buttons */
+            button {
+              background-color: var(--color-bg-accent);
+              color: var(--color-text);
+              border: none;
+              padding: 10px 20px;
+              margin: 10px;
+              cursor: pointer;
+              border-radius: 5px;
+              transition: background-color 0.3s, color 0.3s;
+            }
+
+            button:hover {
+              background-color: var(--color-text);
+              color: var(--color-bg-accent);
+            }
+
+            /* Style for car selection */
+            select {
+              width: 100%;
+              padding: 10px;
+              margin: 10px 0;
+              border: 1px solid var(--color-bg-accent);
+              border-radius: 5px;
+              background-color: var(--color-bg);
+              color: var(--color-text);
+            }
+
+            /* Style for infinite scroll */
+            #scroll-container {
+              max-height: calc(1000vh - 1000px); /* Adjust this value as needed */
+              overflow: auto;
+            }      
+        </style>
+    </head>
+    
+<body>
+    <header>
+        <div class="container">
+          <div class="header_flex">
+            <div>
+              <a href="/">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75" height="60" viewBox="0 0 75 75"><path d="M0 37.5V75h75V0H0v37.5zM63.9 6.6c.337.112.6.6.6 1.05 0 1.087-1.35 3.225-2.062 3.225-.75 0-.712-.187.225-1.462 1.087-1.5.787-2.175-.487-1.162-1.387 1.087-3 4.5-2.85 6.075.225 2.287 2.325 1.5 4.012-1.5.6-1.05.937-.187.412 1.05-.9 2.175-3.937 3.862-4.725 2.587-.15-.225-.637.075-1.237.825-.75.9-1.2 1.162-1.725.975-.562-.225-.637-.562-.45-2.25l.187-1.95-1.05 2.25c-1.2 2.55-2.1 3.562-3.037 3.562-.375 0-.712-.3-.825-.675-.112-.525-.225-.45-.637.375-.487 1.05-1.312 1.575-1.912 1.2-.45-.262-.412-1.725.075-3.75.6-2.4 1.2-2.062.9.487l-.225 2.175.937-1.687c.525-.937.937-1.95.975-2.287 0-.337.262-.825.6-1.125.525-.412.562-.225.3 1.837-.412 3.787.712 2.775 1.537-1.312.262-1.275.975-2.062 1.237-1.312.075.225.412.112.862-.337 1.425-1.425 1.8-.675 1.05 2.025-.45 1.687-.187 2.175.675 1.275.375-.337.75-1.575.9-2.887.3-2.7 1.8-5.362 3.675-6.637 1.462-.975 1.275-.937 2.062-.637zm9.675 1.837c-.225 1.575-.412 1.8-1.012 1.312-.487-.412-.675-.225-1.275 1.162-.375.9-.787 1.95-.9 2.287-.3.825-2.212 1.35-2.437.712-.112-.3-.525-.112-1.237.562-.9.862-1.162.937-1.65.525-.712-.6-.712-1.987-.037-3.337.712-1.35 1.462-1.95 2.737-2.137l1.05-.15-.112 2.1c-.187 2.662.45 2.437 1.087-.45.525-2.287 1.425-3.937 1.462-2.587 0 .675.037.675.6-.112.712-1.05 1.875-.937 1.725.112zM46.95 13.762c2.362 2.137-1.237 8.287-5.4 9.3-1.537.375-1.612-.375-.525-4.425 1.2-4.35 1.2-4.35.037-3.262-.525.487-.937 1.087-.937 1.387 0 .262-.262.487-.562.487-.6 0-.712-.637-.337-1.65.262-.675 2.325-2.025 3.825-2.475 1.312-.45 3.037-.15 3.9.637zm-19.425 6.15c1.05.825 1.312 2.437.6 4.237-.9 2.4-5.587 6-6.787 5.25-.525-.3-.225-2.325.937-5.925l.9-2.812-.937.6c-.525.337-1.087 1.012-1.275 1.537-.412 1.012-1.312.9-1.162-.15.15-.937 2.062-2.587 3.562-3.075 1.912-.6 3.075-.525 4.162.337zm10.35-.375c0 .187-.187 1.125-.412 2.062-.525 1.987-.187 2.55.787 1.275.9-1.2 1.425-.712.6.562-1.425 2.137-3.037 1.312-2.437-1.237.15-.75.262-1.425.187-1.462-.075-.075-.6.975-1.2 2.287-.787 1.8-1.387 2.55-2.137 2.887-.862.375-1.125.375-1.387-.075-.262-.375-.487-.262-1.125.487-1.537 1.987-2.4.15-1.462-3.187.562-2.1 1.162-1.725.862.562-.3 2.475.3 2.1 1.312-.825 1.012-2.887 1.575-2.85 1.312.075-.187 2.175-.15 2.325.375 1.65.337-.412.712-1.35.825-2.062.337-1.837.862-2.775 1.462-2.512.262.075.712-.075.937-.375.525-.6 1.5-.712 1.5-.112zM8.512 26.475c.787.787.937 1.2.75 2.437-.375 2.925-3.375 6.15-6.112 6.6l-1.387.225.225-1.762c.15-.937.637-2.925 1.125-4.35.862-2.55.862-2.625.112-2.137-.412.3-.937.825-1.125 1.237-.562 1.012-1.087 1.312-1.5.9-.562-.562.937-2.325 2.775-3.3 2.25-1.125 3.9-1.087 5.137.15zm10.087-.15c-.9 3.337-.525 4.837.675 2.625.525-.937.562-.975.6-.187 0 1.05-1.275 2.437-2.025 2.137-.787-.3-1.012-1.275-.637-2.7.562-1.912.075-1.425-1.087 1.125C14.888 32.1 13.763 33 12.788 32.1c-.6-.562-.712-.525-1.087.337-.262.562-.75.937-1.2.937-.637 0-.75-.225-.712-1.612.037-1.987.412-3.337.975-3.525.337-.112.412.412.262 1.837l-.15 1.987.9-1.837c.487-1.012 1.012-2.137 1.087-2.512.112-.412.375-.712.562-.712.225 0 .3.9.187 2.325-.15 2.062-.112 2.287.375 1.725.262-.375.712-1.612.975-2.775.412-1.762.6-2.062 1.2-1.912.375.112.862-.037 1.125-.337.712-.862 1.575-.675 1.312.3zm31.912 1.05c3.262 1.312 3.112 1.275 3.112.562s.562-.712 2.775.037c1.237.412 2.4.562 3.712.375l1.95-.225-1.125.75c-1.95 1.275-3.75 1.612-6.525 1.125-2.925-.525-4.537-.112-4.537 1.125 0 1.387 1.5 1.687 4.162.787 2.812-.937 3.712-.975 4.687-.187.637.525.637.562.037.375-.862-.262-1.875.262-3.975 2.1-1.875 1.65-2.175 1.687-4.05.675-1.612-.862-2.587-.525-2.962 1.012-.3 1.087.187 2.85.787 2.887.187.037.487-.487.6-1.087.187-.9.262-.75.3.787.037 2.175-.75 3.525-2.625 4.5-1.537.787-.975 1.425.975 1.162 1.125-.187 1.8-.075 2.287.337.6.487.637.562.075.375-.825-.262-2.85.487-4.275 1.537-.825.675-.975.937-.562 1.2.3.187.337.412.112.562-.525.3-2.1 3.6-1.837 3.825.112.112.562-.337 1.012-.937.6-.9 1.087-1.162 1.987-1.125 1.162 0 1.162.037.3.375-.487.187-1.312.787-1.762 1.275-.487.525-1.087.937-1.35.937s-.9.787-1.425 1.762c-2.925 5.55-9.525 8.737-15.787 7.687-12.6-2.175-17.137-17.887-7.612-26.287 3.075-2.7 7.35-4.05 15.937-5.062 3.787-.45 4.687-.675 5.475-1.387l.937-.9-.225 1.875c-.45 4.012-.412 4.125.15 4.125s.937-1.162 1.312-4.087c.187-1.312.562-2.137 1.312-2.925 1.425-1.387 3-1.387 6.637.075z"/><path d="M43.387 14.137c-.375.712-1.837 7.275-1.65 7.462.45.45 2.625-1.237 3.675-2.812 1.312-2.025 1.425-3.525.262-4.312-.9-.637-2.025-.787-2.287-.337zm-20.175 10.05c-1.125 4.425-.937 4.762 1.35 2.737 1.425-1.237 2.812-3.562 2.812-4.725 0-.937-1.162-1.95-2.287-1.95-.825 0-.975.3-1.875 3.937zM4.65 26.962c.15.187-.187 1.912-.712 3.825-.487 1.912-.862 3.562-.75 3.637.337.375 2.925-1.612 3.75-2.887 1.312-1.987 1.537-3.3.75-4.162-.675-.75-3.45-1.125-3.037-.412zm41.025 3.675c-.337.375-.862 1.575-1.2 2.7-.75 2.587-1.837 3.787-3.45 3.787-1.687 0-3.3-1.912-3.037-3.562l.187-1.162-2.287.262c-1.275.112-2.925.037-3.637-.15s-2.587-.262-4.162-.187c-5.364.3-10.089 3.562-12.489 8.55-1.05 2.212-1.162 2.775-1.162 6.187 0 3.487.075 3.937 1.237 6.262 1.537 3.187 4.8 6.262 7.837 7.462 1.65.637 2.962.862 5.55.862 3.037.037 3.637-.075 5.887-1.162 5.25-2.475 8.287-6.862 8.887-12.862.187-1.875.15-3.45-.037-3.862-.525-1.05 0-2.1 1.5-2.85l1.387-.712-1.05-.412c-.562-.225-1.125-.675-1.275-1.012-.375-1.012.637-4.687 1.575-5.625.525-.525.75-.975.525-1.125-.225-.112-.3-.637-.187-1.125.3-1.087.15-1.125-.6-.262z"/></svg>
+              </a>
+            </div>
+            <div class="d_flex gap_26">
+              <div class="d_flex gap_26">
+                <div class="contact_links">
+                  <div class="contact_icon">
+                    <img src="https://sudip-bhowmick.github.io/images/img/mail.svg" alt="mail">
+                    <a href="mailto:sudipbhowmick80@gmail.com">DunDunDunCar@F1Racing.com</a>
+                  </div>
+                  <div class="contact_icon">
+                    <img src="https://sudip-bhowmick.github.io/images/img/call.svg" alt="call">
+                    <a href="tel:918898244769">+91 9999999999</a>
+                  </div>
+                </div>
+                <div class="social_links">
+                  <a href="#" target="_blank"><img src="https://sudip-bhowmick.github.io/images/img/linkedin.svg" alt="linkedin"></a>
+                  <a href="#" target="_blank"><img src="https://sudip-bhowmick.github.io/images/img/facebook.svg" alt="facebook"></a>
+                  <a href="#" target="_blank"><img src="https://sudip-bhowmick.github.io/images/img/twitter.svg" alt="twitter"></a>
+                </div>
+              </div>
+              <div class="header_cta">
+                <a href="javascript:void(0)" class="btn_one">Book a call</a>
+              </div>
+      
+              <button type="button" class="burger" id="burger">
+                <span class="burger_line"></span>
+                <span class="burger_line"></span>
+                <span class="burger_line"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="overlay"></div>
+        <nav class="dark_bg" id="menu">
+          <div class="container">
+            <ul>
+              <li><a href="javascript:void(0)" class="active">Home</a></li>
+              <li><a href="javascript:void(0)">About us</a></li>
+              <li><a href="javascript:void(0)">Services</a></li>
+              <li><a href="invoice.html">Invoice</a></li>
+              <li><a href="javascript:void(0)">Contact us</a></li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      
+      <main style="height: 25vh">
+      </main>
+    
+<button class="toggle" id="direction-toggle">
+    <svg aria-hidden="true" viewBox="0 0 512 512" width="100" title="arrows-alt-h">
+      <path d="M377.941 169.941V216H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.568 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296h243.882v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.568 0-33.941l-86.059-86.059c-15.119-15.12-40.971-4.412-40.971 16.97z" />
+    </svg>
+  </button>
+  
+  <article class="wrapper">
+    <div class="marquee">
+      <div class="marquee__group">
+        <a href="https://www.rolls-roycemotorcars.com/en_GB/home.html">
+            <svg>
+                <use xlink:href="#rolls-royce" />
+            </svg>
+        </a>
+        
+        <a href="https://www.maserati.com/in/en">
+          <audio id="sound2" src="_Aunty Ji Ek Main Aur Ekk Tu_ Full Video Song  Imran Khan, Kareena Kapoor.mp3"></audio>
+            <svg>
+                <use xlink:href="#maserati" />
+            </svg>
+        </a>
+
+        <a href="https://www.ford.com/">
+            <svg>
+                <use xlink:href="#ford" />
+            </svg>
+        </a>
+
+        <a href="https://www.audi.in/in/web/en.html">
+            <svg>
+                <use xlink:href="#audi" />
+            </svg>
+        </a>
+
+        <a href="https://www.porsche.com/middle-east/_india_/">
+            <svg>
+                <use xlink:href="#porsche" />
+            </svg>
+        </a>
+
+        <a href="https://www.mercedes-benz.co.in/passengercars.html?group=all&subgroup=all.saloon&view=BODYTYPE">
+          <audio id="sound2" src="Ddlj Theme.mp3"></audio>
+            <svg>
+                <use xlink:href="#benz" />
+            </svg>
+        </a>
+
+        <a href="https://www.lamborghini.com/en-en">
+            <svg>
+                <use xlink:href="#lamborghini" />
+            </svg>
+        </a>
+
+        <a href="https://www.bmw.in/en/index.html">
+            <svg>
+                <use xlink:href="#bmw" />
+            </svg>
+        </a>
+
+      </div>
+  
+      <div aria-hidden="true" class="marquee__group">
+        <a href="https://www.rolls-roycemotorcars.com/en_GB/home.html">
+            <svg>
+                <use xlink:href="#rolls-royce" />
+            </svg>
+        </a>
+        
+        <a href="https://www.maserati.com/in/en">
+          <audio id="sound2" src="_Aunty Ji Ek Main Aur Ekk Tu_ Full Video Song  Imran Khan, Kareena Kapoor.mp3"></audio>
+            <svg>
+                <use xlink:href="#maserati" />
+            </svg>
+        </a>
+
+        <a href="https://www.ford.com/">
+            <svg>
+                <use xlink:href="#ford" />
+            </svg>
+        </a>
+
+        <a href="https://www.audi.in/in/web/en.html">
+            <svg>
+                <use xlink:href="#audi" />
+            </svg>
+        </a>
+
+        <a href="https://www.porsche.com/middle-east/_india_/">
+            <svg>
+                <use xlink:href="#porsche" />
+            </svg>
+        </a>
+
+        <a href="https://www.mercedes-benz.co.in/passengercars.html?group=all&subgroup=all.saloon&view=BODYTYPE">
+          <audio id="sound2" src="Ddlj Theme.mp3"></audio>
+            <svg>
+                <use xlink:href="#benz" />
+            </svg>
+        </a>
+
+        <a href="https://www.lamborghini.com/en-en">
+            <svg>
+                <use xlink:href="#lamborghini" />
+            </svg>
+        </a>
+
+        <a href="https://www.bmw.in/en/index.html">
+            <svg>
+                <use xlink:href="#bmw" />
+            </svg>
+        </a>
+      </div>
+    </div>
+  
+    <div class="marquee marquee--reverse">
+      <div class="marquee__group">
+        <a href="https://www.bmw.in/en/index.html">
+            <svg>
+                <use xlink:href="#bmw" />
+            </svg>
+        </a>
+
+        <a href="https://www.lamborghini.com/en-en">
+            <svg>
+                <use xlink:href="#lamborghini" />
+            </svg>
+        </a>
+
+         <a href="https://www.mercedes-benz.co.in/passengercars.html?group=all&subgroup=all.saloon&view=BODYTYPE">
+          <audio id="sound2" src="Ddlj Theme.mp3"></audio>
+            <svg>
+                <use xlink:href="#benz" />
+            </svg>
+        </a>
+
+        <a href="https://www.porsche.com/middle-east/_india_/">
+            <svg>
+                <use xlink:href="#porsche" />
+            </svg>
+        </a>
+
+        <a href="https://www.audi.in/in/web/en.html">
+            <svg>
+                <use xlink:href="#audi" />
+            </svg>
+        </a>
+
+        <a href="https://www.ford.com/">
+            <svg>
+                <use xlink:href="#ford" />
+            </svg>
+        </a>
+
+        <a href="https://www.rolls-roycemotorcars.com/en_GB/home.html">
+            <svg>
+                <use xlink:href="#rolls-royce" />
+            </svg>
+        </a>
+        
+        <a href="https://www.maserati.com/in/en">
+          <audio id="sound2" src="_Aunty Ji Ek Main Aur Ekk Tu_ Full Video Song  Imran Khan, Kareena Kapoor.mp3"></audio>
+            <svg>
+                <use xlink:href="#maserati" />
+            </svg>
+        </a>
+      </div>
+  
+      <div aria-hidden="true" class="marquee__group">
+        <a href="https://www.bmw.in/en/index.html">
+            <svg>
+                <use xlink:href="#bmw" />
+            </svg>
+        </a>
+
+        <a href="https://www.lamborghini.com/en-en">
+            <svg>
+                <use xlink:href="#lamborghini" />
+            </svg>
+        </a>
+
+        <a href="https://www.mercedes-benz.co.in/passengercars.html?group=all&subgroup=all.saloon&view=BODYTYPE">
+          <audio id="sound2" src="Ddlj Theme.mp3"></audio>
+            <svg>
+                <use xlink:href="#benz" />
+            </svg>
+        </a>
+
+        <a href="https://www.porsche.com/middle-east/_india_/">
+            <svg>
+                <use xlink:href="#porsche" />
+            </svg>
+        </a>
+
+        <a href="https://www.audi.in/in/web/en.html">
+            <svg>
+                <use xlink:href="#audi" />
+            </svg>
+        </a>
+
+        <a href="https://www.ford.com/">
+            <svg>
+                <use xlink:href="#ford" />
+            </svg>
+        </a>
+
+        <a href="https://www.rolls-roycemotorcars.com/en_GB/home.html">
+            <svg>
+                <use xlink:href="#rolls-royce" />
+            </svg>
+        </a>
+        
+        <a href="https://www.maserati.com/in/en">
+          <audio id="sound2" src="_Aunty Ji Ek Main Aur Ekk Tu_ Full Video Song  Imran Khan, Kareena Kapoor.mp3"></audio>
+            <svg>
+                <use xlink:href="#maserati" />
+            </svg>
+        </a>
+      </div>
+    </div>
+  </article>
+        
+        <svg style= 'display: none;'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500.3 50.3" xml:space="preserve">
+            <defs>
+            <symbol id="rolls-royce" viewBox="0 0 24 24">
+                <path d="M10.325 17.675h3.495c-0.535 -0.285 -0.725 -1.04 -0.755 -1.765 -0.345 -3.275 -2.17 -5.825 -2.615 -6.485 2.075 -1.245 2.99 -3.15 2.99 -4.91C13.44 1.585 10.86 0.2 8.625 0.2H2.735c0.22 0.315 0.38 0.44 0.38 1.165v14.925c0 0.725 -0.315 1.07 -0.535 1.385h2.675c-0.22 -0.315 -0.535 -0.66 -0.535 -1.385V10.81c1.805 -0.03 3.31 -0.325 4.52 -0.805C11.08 11.98 11.3 14.845 11.335 15.63c0.025 0.785 -0.38 1.48 -1.01 2.045zM4.72 9.46V1.24h3.465c2.395 0 3.18 1.51 3.15 3.115 -0.16 4.44 -4.57 5.105 -6.615 5.105z"/><path d="M7.865 12.545a15.81 15.81 0 0 0 2.33 -0.2c-0.095 -0.32 -0.44 -1.01 -0.615 -1.3a10.317 10.317 0 0 1 -1.715 0.145v-0.345c-0.22 0.08 -1.195 0.22 -1.605 0.27v6.91c0 0.725 -0.315 1.07 -0.535 1.385H8.4c-0.22 -0.315 -0.535 -0.66 -0.535 -1.385V12.545z"/><path d="M10.7 2.925H7.865v5.635c-0.36 0.125 -1.085 0.36 -1.605 0.41V3.05c0 -0.725 -0.155 -0.85 -0.38 -1.165H9.8c0.32 0.19 0.745 0.645 0.9 1.04z"/><path d="M13.86 3.93c0.48 0.575 0.665 1.345 0.645 2.14 -0.085 2.405 -1.42 3.7 -2.945 4.385 0.225 0.34 0.505 0.98 0.68 1.33l0.22 -0.08c1.84 1.975 2.015 4.855 2.045 5.64 0.03 0.785 -0.38 1.48 -1.005 2.045h3.495c-0.535 -0.285 -0.725 -1.04 -0.755 -1.765C15.895 14.35 14.07 11.8 13.625 11.14c2.075 -1.245 2.99 -3.15 2.99 -4.91 0 -2.31 -1.655 -3.675 -3.43 -4.14 0.145 0.23 0.535 1.005 0.675 1.84z"/>
+              </symbol>
+        
+            <symbol id="maserati" viewBox="0 0 24 24">
+                <path d="M18.243 17.475h-1.521c0 .894.58 1.301 1.505 1.098v-1.098zm.063-3.326c0-.22.11-3.09.8-5.349.737-2.478 2.243-3.953 2.133-4.094-.094-.141-1.317.11-2.259.753-.988.674-1.96 1.804-1.882 1.882.047.047.377-.22.973-.455.643-.235.925-.188.925-.188s-1.067 1.757-1.584 3.64c-.44 1.584-.675 3.638-.69 3.827zm-12.612 0c-.016-.22-.11-3.09-.8-5.349-.737-2.478-2.243-3.953-2.133-4.094.094-.141 1.317.11 2.243.753.988.674 1.96 1.804 1.882 1.882-.047.047-.376-.22-.972-.455-.643-.235-.91-.188-.91-.188s1.067 1.757 1.584 3.64c.44 1.584.675 3.638.675 3.827zm5.412-11.137c.612-1.192.721-2.98.878-3.012.141.031.267 1.82.863 3.012.565 1.13 1.788 2.07 1.726 2.196-.079.141-.77-.204-1.098-.36-.55-.252-.989-.456-.989-.456s-.22 2.855.47 5.49c.566 2.15 1.93 4.11 2.056 4.283H13.27c-.047-.094-.11-.189-.157-.267-.47-.831-.816-1.553-1.13-2.792-.33 1.24-.674 1.96-1.145 2.792a1.49 1.49 0 0 1-.157.267h-1.74c.125-.173 1.49-2.134 2.054-4.283.69-2.62.47-5.49.47-5.49s-.439.204-.988.455c-.345.157-1.02.502-1.113.377-.047-.126 1.176-1.083 1.74-2.212M5.742 17.475h1.522c0 .894-.58 1.301-1.522 1.098zm8.455.69c-.69.643-.69 1.788-.69 1.788H10.51s0-1.145-.69-1.788c-.487-.455-1.083-.55-1.083-.55-.392-.078-.392-.125-.392-.14h7.357s0 .062-.392.14a2.2 2.2 0 0 0-1.114.55M5.004 14.54h13.945v.534H5.004zm.016 1.961h13.945v.518H5.02zm.674-.988H18.29v.533H5.694zm4.69 6.321h3.2V24h-3.2zm-.517-1.459h4.235v1.051H9.867Z"/>
+            </symbol>
+
+            <symbol id="ford" viewBox="0 0 24 24">
+                <path d="M11.996 7.825C5.376 7.825 0 9.696 0 12c0 2.313 5.375 4.175 12.004 4.175C18.634 16.175 24 14.313 24 12c0-2.304-5.367-4.175-12.004-4.175zm.008.362c6.391 0 11.581 1.712 11.581 3.813 0 2.11-5.19 3.813-11.58 3.813C5.604 15.813.423 14.11.423 12c0-2.1 5.181-3.813 11.58-3.813zm-3.14.684c-.17 0-.342.008-.514.022-1.139.097-2.233.741-2.233 1.721 0 .495.353.9.9.883.645-.018 1.174-.539 1.448-1.183.097-.238-.097-.344-.185-.203-.16.256-.398.45-.645.574-.3.141-.626.106-.724-.141-.132-.353.15-.865.804-1.113.944-.344 1.924-.114 2.877.062.009 0 .062.027.018.053-.168.088-.336.168-.6.389-.186.167-.433.38-.618.609-.186.23-.318.432-.495.662-.026.035-.052.035-.052.035-.433.07-.848.124-1.236.388-.08.053-.106.16-.062.23s.141.08.212.026c.238-.185.485-.265.768-.273.008 0 .017 0 .017.008.01 0 .01.01 0 .018-.423.592-.53.724-.847 1.086a9.206 9.206 0 0 1-.503.512c-.724.67-1.5.662-1.783.238-.168-.256-.141-.52-.035-.741.14-.274.405-.468.635-.583.088-.044.115-.15.027-.247-.053-.07-.186-.08-.283-.062a1.515 1.515 0 0 0-1.165 1.624c.07.742.68 1.174 1.377 1.165.547-.008 1.068-.176 1.686-.803.582-.6 1.12-1.483 1.615-2.304.018-.026.027-.044.106-.053.31-.035.777-.079 1.068-.097.062-.008.08-.009.106.027.07.097.194.176.283.23.053.026.07.035.105.035.045 0 .08-.018.097-.045.036-.035.045-.079.027-.105-.018-.036-.22-.15-.23-.195-.008-.026.027-.035.027-.035a.656.656 0 0 0 .406-.327c.097-.185.106-.423-.062-.556-.15-.123-.37-.097-.556.062a.677.677 0 0 0-.212.592c.01.035 0 .053-.044.053-.273.017-.538.026-.83.044-.026 0-.026-.01-.017-.027.335-.582.838-.997 1.394-1.412.036-.027.027-.08.027-.124 1.006.22 1.977.627 3.019.618.423 0 .838-.062 1.235-.282.345-.194.486-.362.495-.547.008-.124-.08-.203-.203-.177-1.05.247-2.057.238-3.107.115-1.198-.147-2.347-.45-3.539-.446zm6.83.384c0 .009.009.009.009.017 0-.008-.009-.017-.009-.017zm-4.72 1.308c.025 0 .048.008.068.025.053.044.027.167-.026.247a.416.416 0 0 1-.256.185c-.018.01-.035 0-.044-.044a.419.419 0 0 1 .132-.362.194.194 0 0 1 .126-.051zm7.818.016c-.044 0-.07.009-.097.053-.07.141-.97 1.483-1.139 1.748-.026.044-.061.035-.07-.01-.018-.158-.15-.335-.362-.414a.913.913 0 0 0-.486-.053c-.29.035-.556.194-.785.37-.353.265-.653.61-1.042.866-.211.14-.503.256-.697.08-.177-.16-.159-.522.115-.804.026-.027.062-.009.053.018a.36.36 0 0 0 .106.344c.114.106.282.115.432.044a.571.571 0 0 0 .3-.433.49.49 0 0 0-.45-.556c-.22-.017-.441.062-.644.239a1.14 1.14 0 0 0-.256.282c-.018.035-.053.035-.053-.009.009-.362-.141-.573-.442-.582-.238-.01-.485.123-.68.273a5.704 5.704 0 0 0-.6.618c-.026.027-.043.027-.052-.026a1.343 1.343 0 0 0-.177-.645c-.044-.061-.124-.088-.194-.044-.035.018-.141.07-.23.133-.044.035-.053.08-.035.14.106.363.088.778-.062 1.122-.132.318-.397.609-.706.706-.203.062-.415.035-.547-.15-.177-.247-.106-.68.159-1.042.238-.317.574-.52.918-.644.044-.018.044-.044.035-.08a1.737 1.737 0 0 0-.062-.167c-.035-.08-.114-.097-.23-.088a1.923 1.923 0 0 0-.688.23c-.573.308-.865.908-.997 1.226-.062.15-.115.247-.177.335-.088.115-.203.221-.414.406-.018.018-.036.053-.018.089a.995.995 0 0 0 .159.212c.035.017.07-.01.088-.018a2.07 2.07 0 0 0 .406-.362c.027-.035.062-.018.08.035a.91.91 0 0 0 .573.618c.53.177 1.077-.08 1.492-.53.265-.282.362-.467.459-.59.168-.213.512-.69.91-.99.15-.114.317-.194.405-.14.07.044.097.15-.018.352-.406.75-1.015 1.625-1.12 1.845-.018.036 0 .062.035.062h.618c.035 0 .044-.018.061-.035.318-.495.61-.962.927-1.448.018-.026.036-.009.036.009a.925.925 0 0 0 .097.37.551.551 0 0 0 .476.265.9.9 0 0 0 .389-.079c.132-.053.238-.115.317-.168.045-.035.053.027.053.027-.07.388.018.856.406 1.041.468.23.98-.097 1.271-.38.027-.026.062-.026.062.036a.509.509 0 0 0 .15.335c.247.248.742.15 1.245-.238.318-.247.653-.6.953-.962.009-.018.018-.035 0-.062-.044-.044-.115-.106-.159-.15-.017-.017-.053-.009-.07 0-.31.291-.592.636-.989.91-.132.097-.353.167-.45.044-.035-.053-.035-.124 0-.212.132-.31 1.995-3.151 2.092-3.32.017-.026 0-.052-.035-.052zm-1.962 1.78c.048 0 .094.01.135.03.23.105.159.37.053.582-.009.018-.009.026-.009.044s.036.044.062.053c.009 0 .018.009 0 .035-.08.168-.15.265-.247.415a1.674 1.674 0 0 1-.318.344c-.185.16-.45.327-.662.212-.097-.053-.141-.185-.132-.291.008-.309.14-.618.388-.927.251-.308.52-.494.73-.496z"/>      
+            </symbol>
+        
+            <symbol id="audi" viewBox="0 0 24 24" >
+                <path d="M19.848,7.848c-0.992,0-1.902,0.348-2.616,0.928c-0.714-0.58-1.624-0.928-2.616-0.928 c-0.992,0-1.902,0.348-2.616,0.928c-0.714-0.58-1.624-0.928-2.616-0.928c-0.992,0-1.902,0.348-2.616,0.928 c-0.714-0.58-1.624-0.928-2.616-0.928C1.859,7.848,0,9.707,0,12s1.859,4.152,4.152,4.152c0.992,0,1.902-0.348,2.616-0.928 c0.714,0.58,1.624,0.928,2.616,0.928c0.992,0,1.902-0.348,2.616-0.928c0.714,0.58,1.624,0.928,2.616,0.928 c0.992,0,1.902-0.348,2.616-0.928c0.714,0.58,1.624,0.928,2.616,0.928C22.141,16.152,24,14.293,24,12S22.141,7.848,19.848,7.848z M17.232,13.866c-0.376-0.526-0.598-1.17-0.598-1.866c0-0.696,0.222-1.34,0.598-1.866c0.376,0.526,0.598,1.17,0.598,1.866 C17.83,12.696,17.608,13.34,17.232,13.866z M12,13.866c-0.376-0.526-0.598-1.17-0.598-1.866c0-0.696,0.222-1.34,0.598-1.866 c0.376,0.526,0.598,1.17,0.598,1.866C12.598,12.696,12.376,13.34,12,13.866z M6.768,13.866C6.392,13.34,6.17,12.696,6.17,12 c0-0.696,0.222-1.34,0.598-1.866C7.144,10.66,7.366,11.304,7.366,12C7.366,12.696,7.144,13.34,6.768,13.866z M0.938,12 c0-1.775,1.439-3.214,3.214-3.214c0.736,0,1.414,0.248,1.956,0.665C5.56,10.154,5.232,11.039,5.232,12 c0,0.961,0.328,1.846,0.876,2.549c-0.542,0.416-1.22,0.665-1.956,0.665C2.377,15.214,0.938,13.775,0.938,12z M7.428,14.549 C7.976,13.846,8.304,12.961,8.304,12c0-0.961-0.328-1.846-0.876-2.549c0.542-0.416,1.22-0.665,1.956-0.665 c0.736,0,1.414,0.248,1.956,0.665c-0.549,0.704-0.876,1.588-0.876,2.549c0,0.961,0.328,1.846,0.876,2.549 c-0.542,0.416-1.22,0.665-1.956,0.665C8.648,15.214,7.97,14.966,7.428,14.549z M12.66,14.549c0.549-0.704,0.876-1.588,0.876-2.549 c0-0.961-0.328-1.846-0.876-2.55c0.542-0.416,1.22-0.665,1.956-0.665s1.414,0.248,1.956,0.665 c-0.549,0.704-0.876,1.588-0.876,2.549c0,0.961,0.328,1.846,0.876,2.549c-0.542,0.416-1.22,0.665-1.956,0.665 C13.88,15.214,13.202,14.966,12.66,14.549z M19.848,15.214c-0.736,0-1.414-0.248-1.956-0.665c0.548-0.704,0.876-1.588,0.876-2.549 c0-0.961-0.328-1.846-0.876-2.549c0.542-0.416,1.22-0.665,1.956-0.665c1.775,0,3.214,1.439,3.214,3.214 S21.623,15.214,19.848,15.214z"/>        
+            </symbol>
+        
+            <symbol id="porsche" viewBox="0 0 24 24">
+                <path d="M11.972 0A25.68 25.68 0 0 0 9.93.091a27.858 27.858 0 0 0-4.248.685 23.565 23.565 0 0 0-2.975.966l-.06.022s.118 7.243.21 10.831a9.934 9.934 0 0 0 .569 3.098 14.899 14.899 0 0 0 1.622 3.214A12.884 12.884 0 0 0 7.56 21.66a11.234 11.234 0 0 0 1.192.873 15.214 15.214 0 0 0 2.038 1.031c.233.098.436.192.62.255A4.58 4.58 0 0 0 12 24a4.58 4.58 0 0 0 .59-.182c.182-.063.387-.156.62-.255a15.22 15.22 0 0 0 2.037-1.031 11.25 11.25 0 0 0 1.194-.873 12.88 12.88 0 0 0 2.511-2.752 14.889 14.889 0 0 0 1.622-3.214 9.934 9.934 0 0 0 .57-3.098c.091-3.588.21-10.827.21-10.827a.635.635 0 0 0-.057-.026 23.564 23.564 0 0 0-2.976-.966 27.856 27.856 0 0 0-4.248-.684A26.068 26.068 0 0 0 12.031 0zm0 .361h.057c.679.008 1.288.03 1.963.09a26.585 26.585 0 0 1 4.084.663 22.53 22.53 0 0 1 2.861.937.619.619 0 0 1 .057.025l-.038 2.274a.113.113 0 0 0-.019-.01 22.55 22.55 0 0 0-2.86-.937 26.61 26.61 0 0 0-4.085-.662c-.675-.06-1.281-.1-1.96-.108h-.058c-.679.009-1.29.048-1.965.108a26.608 26.608 0 0 0-4.084.665 22.547 22.547 0 0 0-2.861.938.116.116 0 0 0-.02.01l-.038-2.281.058-.022a22.527 22.527 0 0 1 2.86-.937A26.581 26.581 0 0 1 10.01.45c.675-.06 1.284-.08 1.963-.089zm.288.216a16.633 16.633 0 0 0-.902.008c-.121.005-.288.109-.29.23l-.007.648c-.002.132.172.236.305.239.462.01.87.002 1.318.03.033.003.062.023.062.056l-.003.13a.042.042 0 0 1-.045.046c-.521 0-1.066-.025-1.593.017-.028.002-.027-.005-.028.023l-.024.384-.002.03a16.318 16.318 0 0 1 1.882 0 .32.32 0 0 0 .305-.262l.006-.627c0-.129-.158-.224-.261-.23-.442-.028-.945-.013-1.394-.025a.046.046 0 0 1-.044-.05l.009-.145c0-.028.019-.036.047-.037.444-.016 1.107.005 1.562.019a.072.072 0 0 0 .06-.07V.674c0-.017-.032-.067-.063-.068V.605a33.113 33.113 0 0 0-.9-.028zm-1.88.064c-.423.008-1.341.125-1.862.19L8.515 2.64v.023l.47-.06a.014.014 0 0 0 .01-.006.014.014 0 0 0 .003-.01v-.523l.947-.102c.083-.015.18.046.256.169a.88.88 0 0 1 .114.339l.467-.035c.01 0 .03 0 .028-.01a.988.988 0 0 0-.307-.663.316.316 0 0 0 .197-.31 4.34 4.34 0 0 0-.022-.564.32.32 0 0 0-.3-.247zm3.59.019a.404.404 0 0 0-.413.332l-.01 1.195a.312.312 0 0 0 .24.289c.61.057 1.21.112 1.89.215.011 0 .032-.007.032-.017v-.416c0-.009-.02-.028-.027-.03-.454-.057-1.053-.137-1.589-.193a.076.076 0 0 1-.058-.07v-.812c0-.034.05-.052.084-.05.529.044 1.056.14 1.584.197.014.002.036-.007.037-.021l.01-.382a.037.037 0 0 0-.029-.033 36.382 36.382 0 0 0-1.75-.204zm1.98.237c-.012 0-.022.014-.022.025-.006.274-.045 1.457-.053 1.772v.027c.155.027.326.048.453.074.014.002.035-.008.035-.022-.002-.207 0-.448-.004-.636 0-.013.006-.014.02-.012a31.392 31.392 0 0 1 1.102.22c.008 0 .052.007.052.03-.003.217-.007.4-.013.617a.041.041 0 0 0 .027.04c.145.033.283.067.42.1.037.008.043.001.044-.012.022-.451.03-1.174.036-1.784 0-.008-.003-.02-.01-.022-.153-.035-.297-.072-.453-.105-.014-.003-.022.02-.023.035-.015.223-.009.43-.026.652 0 .008 0 .012-.009.01-.37-.076-.765-.158-1.132-.227-.01-.002-.006-.02-.005-.031l.003-.653a.033.033 0 0 0-.026-.03 23.196 23.196 0 0 0-.417-.068zM7.934.92a.303.303 0 0 0-.037 0c-.543.086-1.089.201-1.64.32a.5.5 0 0 0-.23.143.322.322 0 0 0-.102.205l.004 1.118a.434.434 0 0 0 .106.266.24.24 0 0 0 .204.11 38.518 38.518 0 0 1 1.633-.323.497.497 0 0 0 .268-.166.362.362 0 0 0 .098-.23L8.236 1.2a.28.28 0 0 0-.11-.198.303.303 0 0 0-.191-.08zm2.157.197a.076.076 0 0 1 .08.069l.003.189a.172.172 0 0 1-.14.166l-1.062.104-.009-.008V1.23l.009-.004 1.111-.108a.076.076 0 0 1 .008 0zm-2.52.29a.167.167 0 0 1 .078.022.117.117 0 0 1 .054.106l-.009.704a.125.125 0 0 1-.049.105.291.291 0 0 1-.12.047 61.16 61.16 0 0 1-.997.19.106.106 0 0 1-.088-.017.133.133 0 0 1-.03-.1v-.726a.143.143 0 0 1 .04-.097.243.243 0 0 1 .12-.06c.29-.054.67-.129.968-.172a.167.167 0 0 1 .033-.002zm10.81 0-.001.001c-.008 0-.008.012-.008.019-.014.606-.03 1.167-.035 1.773 0 .013.006.03.018.033a22.245 22.245 0 0 1 2.158.7c.032.011.031-.013.031-.022.003-.138.01-.278.003-.416a.041.041 0 0 0-.025-.033 16.602 16.602 0 0 0-1.66-.541.028.028 0 0 1-.019-.026l.008-.18c0-.008.014-.01.022-.008a21.848 21.848 0 0 1 1.67.542c.01.003.01-.01.01-.019a5.121 5.121 0 0 0 0-.468.029.029 0 0 0-.02-.026 21.457 21.457 0 0 0-1.638-.523c-.008-.002-.018-.01-.018-.018v-.192c0-.008.013-.013.021-.01.564.144 1.184.36 1.615.519.038.014.06.008.06-.027 0-.157.006-.168-.002-.324-.002-.02-.004-.04-.022-.047a21.383 21.383 0 0 0-2.169-.707zm-12.97.064a.365.365 0 0 0-.084.009c-.65.166-1.303.414-1.956.652a.063.063 0 0 0-.03.052V3.65l.003.33s.471-.177.573-.21c.013-.004.013-.017.013-.031l-.01-.52c0-.015.002-.037.016-.04l1.625-.502a.306.306 0 0 0 .138-.101.237.237 0 0 0 .052-.156l-.017-.683a.272.272 0 0 0-.119-.197.365.365 0 0 0-.204-.068zm-.286.496c.036-.01.07.031.072.063a1.86 1.86 0 0 1 .012.25c-.001.045-.066.097-.11.11l-1.184.386c-.011.004-.031 0-.031-.012l.002-.358c0-.017.02-.031.036-.036a10.796 10.796 0 0 1 1.203-.403zm6.967.981c.653.01 1.246.03 1.9.088a26.591 26.591 0 0 1 4.083.663 22.501 22.501 0 0 1 2.861.937.107.107 0 0 1 .014.007 89.441 89.441 0 0 0-.007.448h-8.851zm-.317.002-.001 4.618H8.827c-.043-.004-.015-.023.015-.052a1.71 1.71 0 0 1 .715-.312c.022-.002.028-.014-.003-.054a.898.898 0 0 0-.93-.212.985.985 0 0 0-.624.603.04.04 0 0 1-.04.031 6.734 6.734 0 0 1-.47.013c-.025 0-.037-.032-.035-.056a.737.737 0 0 1 .343-.484 1.1 1.1 0 0 1 .519-.178.04.04 0 0 0 .02-.063.515.515 0 0 0-.105-.093.758.758 0 0 0-.504-.077 1.053 1.053 0 0 0-.948.964c-.01.06.006.074-.053.094-.112.038-.322.064-.434.088-.02.003-.05-.043-.045-.063a1.309 1.309 0 0 1 .244-.522 1.006 1.006 0 0 1 .342-.291c.026-.013.05-.044.026-.064-.253-.22-.771.012-.98.241a1.37 1.37 0 0 0-.275.91c0 .016.014.041 0 .047a4.942 4.942 0 0 1-.4.15c-.012.003-.014-.028-.016-.04a.93.93 0 0 1 .147-.677.661.661 0 0 1 .244-.241c.01-.006.008-.018 0-.028-.115-.149-.569-.042-.708.094-.32.312-.297.615-.312 1.097-.001.023-.03.111-.056.123a.57.57 0 0 1-.184.07c-.021.006-.023.014-.028-.007a.39.39 0 0 0-.57-.222.356.356 0 0 0-.077.532c.015.017.02.034-.003.041a.42.42 0 0 0-.275.534.336.336 0 0 0 .296.21.628.628 0 0 0 .37-.108.043.043 0 0 1 .06.01.386.386 0 0 0 .531.124c.162-.107.234-.273.114-.559-.007-.016.02-.046.034-.054a6.615 6.615 0 0 1 3.144-.88 1.78 1.78 0 0 1 .456.101.094.094 0 0 1 .023.008l.002.941a.19.19 0 0 1-.034.025 1.005 1.005 0 0 0-.432.55c-.004.017-.006.021-.035.024-.193.019-.399.047-.591.062-.011.002-.032-.019-.028-.03a1.87 1.87 0 0 1 .725-.908.057.057 0 0 0 .01-.067.375.375 0 0 0-.168-.093 1.087 1.087 0 0 0-.895.362 1.418 1.418 0 0 0-.312.875c-.001.022.003.058-.019.065-.124.039-.261.074-.39.11-.015.004-.035-.011-.038-.027a1.006 1.006 0 0 1 .486-1.03c.051-.04-.038-.102-.102-.102a.963.963 0 0 0-.913.53 1.301 1.301 0 0 0-.03.793c.003.023.019.063-.006.069-.079.019-.265.09-.323.108-.021.007-.035-.003-.047-.03a1.041 1.041 0 0 1-.021-.488 1.102 1.102 0 0 1 .268-.493c.008-.01.011-.032 0-.037a.54.54 0 0 0-.378-.025.74.74 0 0 0-.477.38c-.159.297-.118.583.051 1.005.008.02.018.058 0 .07l-.137.08c-.017.013-.032.002-.044-.015-.055-.078-.124-.202-.21-.24a.415.415 0 0 0-.428.035.406.406 0 0 0-.12.431.875.875 0 0 0 .1.152c.01.014-.001.036-.013.047-.059.052-.14.09-.188.14a.395.395 0 0 0-.01.471.365.365 0 0 0 .45.123 1.624 1.624 0 0 0 .232-.122c.027-.018.045-.051.07-.025a.546.546 0 0 0 .224.153.427.427 0 0 0 .354-.062.305.305 0 0 0 .168-.338.875.875 0 0 0-.143-.27c-.033-.035-.035-.033 0-.054a7.435 7.435 0 0 1 1.66-.724 5.024 5.024 0 0 1 1.69-.207h.046l.003 1.949H3.206c-.054-2.133-.116-5.51-.156-7.836a.113.113 0 0 1 .014-.007 22.499 22.499 0 0 1 2.86-.937 26.59 26.59 0 0 1 4.084-.663 23.38 23.38 0 0 1 1.768-.086zm-3.088.816a1.237 1.237 0 0 0-.693.232c-.286.188-.456.773-.49.982a.044.044 0 0 1-.04.036 5.998 5.998 0 0 0-.676.125c-.007.001-.012-.01-.012-.017a.983.983 0 0 1 .258-.59 3.506 3.506 0 0 1 .493-.396c.013-.011.004-.045-.012-.051a1.035 1.035 0 0 0-.797.012 1.129 1.129 0 0 0-.675.867 2.062 2.062 0 0 0-.029.41c.002.017-.03.018-.045.023-.246.077-.504.167-.71.236-.01.004-.039.002-.039-.01a1.168 1.168 0 0 1 .175-.655c.12-.195.343-.305.505-.469.011-.012.028-.044.011-.051-.41-.165-.797.004-1.124.375a1.395 1.395 0 0 0-.2 1.124c.009.036 0 .075-.019.083a1.805 1.805 0 0 1-.23.089.025.025 0 0 1-.033-.02c-.093-.296-.44-.238-.597-.148a.361.361 0 0 0-.139.489.031.031 0 0 1-.01.044.442.442 0 0 0-.205.596.352.352 0 0 0 .428.137 1.208 1.208 0 0 0 .246-.129.027.027 0 0 1 .03.004.393.393 0 0 0 .566.08c.115-.082.16-.096.204-.244a.39.39 0 0 0-.09-.3c-.012-.01-.001-.04.013-.047A9.692 9.692 0 0 1 8.947 5.51a2.35 2.35 0 0 1 1.446.553.072.072 0 0 0 .062.031.098.098 0 0 0 .054-.056.66.66 0 0 0-.204-.678 1.21 1.21 0 0 0-.612-.344c-.012-.003-.02-.029-.01-.037a.968.968 0 0 1 .335-.22 3.587 3.587 0 0 1 .605-.05c.014-.001.035-.015.03-.028a.606.606 0 0 0-.527-.4 1.325 1.325 0 0 0-.693.1 1.118 1.118 0 0 0-.5.553.036.036 0 0 1-.032.02 12.139 12.139 0 0 0-.594-.007c-.014 0-.035 0-.035-.014a.943.943 0 0 1 .255-.517 1.989 1.989 0 0 1 .68-.386c.019-.006.04-.036.029-.051a.549.549 0 0 0-.201-.17 1.237 1.237 0 0 0-.347-.041zm3.405 1.607h8.845c-.012.686-.025 1.433-.04 2.195h-8.805zM8.681 7.801l6.666.003a.016.016 0 0 1 .017.013l-.002 5.138a2.354 2.354 0 0 1-.143.764 3.327 3.327 0 0 1-1.44 1.725 3.468 3.468 0 0 1-1.74.491 3.512 3.512 0 0 1-2.26-.86 3.078 3.078 0 0 1-1.105-2.31L8.667 7.82c0-.013.001-.019.014-.019zm6.994.086h5.217c-.012.645-.025 1.296-.034 1.926h-5.183V8.318zm-6.839.071c-.013 0-.014.005-.014.018l.007 4.753a2.97 2.97 0 0 0 1.054 2.225 3.333 3.333 0 0 0 2.153.827 3.284 3.284 0 0 0 1.66-.473 3.193 3.193 0 0 0 1.374-1.66 2.28 2.28 0 0 0 .136-.734l.002-4.94a.015.015 0 0 0-.016-.014zm4.436.304a.101.101 0 0 1 .001 0 .11.11 0 0 1 .087.071l.242.715a.079.079 0 0 1-.003.07.066.066 0 0 1-.054.024.065.065 0 0 1-.063-.044l-.038-.125h-.33l-.036.128c-.01.04-.04.044-.071.044a.063.063 0 0 1-.044-.028.057.057 0 0 1-.01-.052l.232-.728a.101.101 0 0 1 .087-.075zm-.763.007a.226.226 0 0 1 .023 0 .232.232 0 0 1 .235.157.046.046 0 0 1-.031.059.053.053 0 0 1-.07-.02.166.166 0 0 0-.132-.09.151.151 0 0 0-.133.1.498.498 0 0 0-.055.222.524.524 0 0 0 .046.228.159.159 0 0 0 .154.102.233.233 0 0 0 .166-.243v-.039h-.135a.057.057 0 0 1-.059-.063c0-.023.007-.05.059-.05h.192c.064 0 .073.048.073.09a.792.792 0 0 1-.011.152.399.399 0 0 1-.15.236.301.301 0 0 1-.15.043.257.257 0 0 1-.227-.145.618.618 0 0 1-.073-.31.577.577 0 0 1 .08-.304.226.226 0 0 1 .198-.125zm-2.988.002a.318.318 0 0 1 .004 0c.183.002.243.111.243.15 0 .035-.061.08-.095.039a.2.2 0 0 0-.157-.068.143.143 0 0 0-.15.096.114.114 0 0 0 .094.135.61.61 0 0 1 .267.08h-.001a.202.202 0 0 1 .081.18.247.247 0 0 1-.067.175.327.327 0 0 1-.247.088.297.297 0 0 1-.263-.14c-.004-.01-.01-.063.034-.078a.084.084 0 0 1 .082.026.239.239 0 0 0 .156.063.223.223 0 0 0 .148-.05.105.105 0 0 0 .024-.116.219.219 0 0 0-.193-.098.25.25 0 0 1-.172-.07.25.25 0 0 1-.069-.196.219.219 0 0 1 .1-.163.318.318 0 0 1 .181-.053zm1.649 0a.06.06 0 0 1 .001 0 .06.06 0 0 1 .006 0h.355a.06.06 0 1 1 0 .12l-.114.002v.682a.063.063 0 0 1-.125 0v-.683h-.116a.06.06 0 0 1-.007-.12zm.56 0a.06.06 0 0 1 .001 0 .06.06 0 0 1 .006 0h.354a.06.06 0 1 1 0 .12l-.114.002v.682a.063.063 0 0 1-.125 0v-.683h-.115a.06.06 0 0 1-.007-.12zm2.74 0a.06.06 0 0 1 .002 0 .06.06 0 0 1 .006 0h.353a.06.06 0 1 1 0 .12l-.112.002v.682a.063.063 0 0 1-.125 0v-.683h-.116a.06.06 0 0 1-.007-.12zm-.677.004a.063.063 0 0 1 .012 0h.19a.364.364 0 0 1 .208.058.278.278 0 0 1 .108.206.235.235 0 0 1-.071.198.305.305 0 0 1-.117.075l-.02.007.158.2a.086.086 0 0 1 .023.056c-.002.032-.023.05-.06.05a.066.066 0 0 1-.056-.027l-.187-.258h-.117v.23a.059.059 0 0 1-.063.067.06.06 0 0 1-.062-.067v-.726a.073.073 0 0 1 .016-.05.063.063 0 0 1 .038-.019zm-3.87.002a.06.06 0 0 1 .003 0h.357a.06.06 0 0 1 0 .121h-.116v.684a.063.063 0 0 1-.125 0v-.684h-.116a.06.06 0 0 1-.003-.12zm.583 0a.063.063 0 0 1 .002 0 .063.063 0 0 1 .065.064v.471a.258.258 0 0 0 .037.151.146.146 0 0 0 .127.056.138.138 0 0 0 .125-.056.265.265 0 0 0 .035-.15V8.34h.001a.063.063 0 0 1 .125 0v.432a.474.474 0 0 1-.056.262.25.25 0 0 1-.228.104.26.26 0 0 1-.23-.104.456.456 0 0 1-.061-.262V8.34a.063.063 0 0 1 .058-.063zm3.354.115v.328h.13a.18.18 0 0 0 .2-.174.15.15 0 0 0-.051-.109.178.178 0 0 0-.13-.045zm-.584.015-.136.469h.278zm-1.14 1.005c.011 0 .021.002.022.011.002.018-.016.029-.042.042a.206.206 0 0 0-.094.08.31.31 0 0 0-.039.163.115.115 0 0 0 .063.079.298.298 0 0 0 .142.028.502.502 0 0 0 .215-.063.581.581 0 0 1 .276-.02.341.341 0 0 1 .194.063c.024.017.02.038.011.04-.014.005-.029-.012-.044-.01a.674.674 0 0 0-.142.03c-.06.027-.087.037-.116.09a.099.099 0 0 0-.007.073c.01.024.035.04.04.057a.446.446 0 0 0 .064.125.205.205 0 0 0 .03.023 2.668 2.668 0 0 1 .282.243.26.26 0 0 1 .04.093c.003.012-.007.03-.018.025a.255.255 0 0 1-.036-.029.178.178 0 0 0-.053-.039.368.368 0 0 0-.176-.025c-.027 0-.081.024-.05.036a.357.357 0 0 1 .132.116.43.43 0 0 1 .107.31c0 .006-.012.01-.015.006a.359.359 0 0 0-.102-.109.324.324 0 0 0-.21-.062c-.015.001-.06 0-.055.014a1.19 1.19 0 0 1 .123.191.562.562 0 0 1 .039.276c-.001.005-.02.01-.023.005a.61.61 0 0 0-.077-.076.349.349 0 0 0-.094-.06.29.29 0 0 0-.204.028.325.325 0 0 0-.13.132.492.492 0 0 0-.062.205.46.46 0 0 0 .042.257.368.368 0 0 0 .19.164.955.955 0 0 0 .334.044c.139.005.278-.016.417-.02a1.943 1.943 0 0 1 .396.003.88.88 0 0 1 .3.12 2.64 2.64 0 0 1 .215.183c.008.006.026-.003.035-.009a.462.462 0 0 0 .131-.233.346.346 0 0 0-.056-.246c-.047-.085-.116-.18-.17-.27a2.962 2.962 0 0 1-.202-.296.305.305 0 0 1-.017-.221.238.238 0 0 1 .107-.128c.011-.007.022.006.017.021a.184.184 0 0 0-.008.112.32.32 0 0 0 .089.14c.013.01.047-.005.055-.021.018-.043.007-.11.023-.154a.619.619 0 0 1 .108-.226 1.47 1.47 0 0 1 .36-.196c.033-.019.054-.105.091-.091.037.013.017.1-.011.142-.04.062-.087.1-.131.156a1.536 1.536 0 0 0-.157.247.222.222 0 0 0-.029.137.14.14 0 0 0 .073.094c.022.01.05-.01.07-.025a.385.385 0 0 0 .097-.103c.023-.038.01-.089.032-.128.006-.009.03-.007.037 0a.139.139 0 0 1 .044.084.393.393 0 0 1-.01.113c-.003.008-.024.027-.031.045a.244.244 0 0 1-.02.04c-.036.063-.078.116-.125.126-.01.001-.017.021-.01.03a.391.391 0 0 0 .113.132.198.198 0 0 0 .152.01c.027-.008.048-.027.079-.037.013-.004.005.004.005.017a.27.27 0 0 1-.015.086.19.19 0 0 1-.075.083.395.395 0 0 1-.166.05c-.027.005-.068.025-.058.051a.256.256 0 0 0 .042.085.122.122 0 0 0 .08.039.205.205 0 0 0 .125-.036c.04-.026.061-.074.096-.108.007-.006.026 0 .026.01a.36.36 0 0 1-.041.158.497.497 0 0 1-.128.138c-.015.013-.033.029-.033.049a.2.2 0 0 0 .044.084.134.134 0 0 0 .083.054.269.269 0 0 0 .1 0c.013 0 .01.023-.001.031a.253.253 0 0 1-.117.068.25.25 0 0 1-.128.008c-.081-.02-.134-.05-.214-.073a.23.23 0 0 0-.135-.009.227.227 0 0 0-.106.083.133.133 0 0 0-.03.064c-.006.063.025.13.005.192a1.415 1.415 0 0 1-.081.234 1.314 1.314 0 0 1-.115.165c-.04.054-.093.074-.12.133a.638.638 0 0 1-.038.063.515.515 0 0 0-.058.229.452.452 0 0 0 .085.209l.153.237a.149.149 0 0 1 .009.083.088.088 0 0 1-.044.07.893.893 0 0 0-.419.527l-.002.013v.004a.106.106 0 0 1-.021.042.334.334 0 0 1-.19.096c-.055.015-.11.029-.165.046a.077.077 0 0 0-.044.031.08.08 0 0 0 .009.097.137.137 0 0 1 .03.071.063.063 0 0 1-.013.042.108.108 0 0 1-.028.022.865.865 0 0 1-.216.087c-.05.011-.086-.002-.07-.059a3.075 3.075 0 0 1 .098-.293.42.42 0 0 1 .133-.14 2.289 2.289 0 0 1 .212-.162.411.411 0 0 0 .119-.126 3.299 3.299 0 0 1 .19-.275.163.163 0 0 0 .029-.129.246.246 0 0 0-.142-.185 1.052 1.052 0 0 0-.085-.034.534.534 0 0 1-.246-.175.09.09 0 0 0-.062-.04c-.063.002-.081.09-.083.138a1.17 1.17 0 0 0 .004.212.18.18 0 0 1 .004.072.055.055 0 0 1-.039.034 2.74 2.74 0 0 0-.565.279.24.24 0 0 0-.063.07l-.017.029a.187.187 0 0 1-.223.08.5.5 0 0 0-.044-.011.094.094 0 0 0-.064.017.162.162 0 0 0-.041.036.06.06 0 0 0-.01.019v.006a.057.057 0 0 0 0 .008.07.07 0 0 0 .004.017l.022.06a.066.066 0 0 1-.038.096.881.881 0 0 1-.203.055c-.04.005-.075-.01-.065-.057a1.1 1.1 0 0 1 .07-.237.094.094 0 0 1 .057-.06.79.79 0 0 0 .179-.14.266.266 0 0 1 .169-.073.512.512 0 0 0 .262-.1 1.73 1.73 0 0 0 .225-.186.37.37 0 0 0-.006-.46l-.02-.035c-.019-.03-.03-.073-.046-.104a.24.24 0 0 1-.039-.104c0-.068.027-.133.031-.201a.024.024 0 0 0-.016-.025.488.488 0 0 0-.137-.03 2.677 2.677 0 0 1-.56.006 1.423 1.423 0 0 1-.39-.18c-.053-.033-.085-.07-.139-.101-.014-.008-.015-.005-.028.006a.672.672 0 0 1-.459.125h-.002a1.766 1.766 0 0 1-.294-.077c-.073-.027-.19-.074-.26-.015-.029.025-.022.06-.022.093a1.244 1.244 0 0 1-.01.305.038.038 0 0 0 .003.032.044.044 0 0 0 .006.006.136.136 0 0 0 .036.02l.01.004c.028.01.033.023.05.058a.196.196 0 0 1 .016.062.159.159 0 0 1-.003.062.544.544 0 0 1-.009.039.207.207 0 0 0 .008.135.115.115 0 0 0 .042.053.073.073 0 0 0 .01.004.063.063 0 0 0 .01.003.068.068 0 0 0 .01 0h.01a.074.074 0 0 0 .02-.008l.004-.002a.05.05 0 0 1 .035-.012.046.046 0 0 1 .01.003.08.08 0 0 1 .063.074.484.484 0 0 1-.046.221.058.058 0 0 1-.077.03l-.018-.007a.445.445 0 0 1-.14-.117.19.19 0 0 1-.049-.112.12.12 0 0 0-.028-.082.09.09 0 0 0-.032-.016.144.144 0 0 1-.07-.046.268.268 0 0 1-.052-.219 1.5 1.5 0 0 0-.046-.64.149.149 0 0 1 .002-.108l.016-.043a.148.148 0 0 1 .007-.016.06.06 0 0 1 .042-.032.167.167 0 0 1 .029-.003 1.516 1.516 0 0 0 .45-.07.152.152 0 0 1 .062-.01.89.89 0 0 0 .073.002c.03 0 .06-.027.024-.05a.847.847 0 0 1-.084-.087.046.046 0 0 0-.052-.022.072.072 0 0 0-.01.005l-.009.005a.098.098 0 0 1-.152-.029.824.824 0 0 1-.087-.202.555.555 0 0 0-.109-.238.235.235 0 0 0-.19-.063.216.216 0 0 0-.13.098l-.063.088a.144.144 0 0 0-.031.067.107.107 0 0 0 0 .016.14.14 0 0 0 .008.032.133.133 0 0 1-.039.154l-.094.075a.087.087 0 0 0-.03.06.527.527 0 0 1-.012.06.13.13 0 0 0-.003.045.088.088 0 0 0 .002.012.081.081 0 0 0 .031.04.156.156 0 0 1 .013.012.074.074 0 0 1 .012.017.06.06 0 0 1-.012.07.219.219 0 0 1-.024.021.753.753 0 0 1-.19.108.098.098 0 0 1-.026.006c-.038.003-.05-.026-.052-.06-.003-.044-.003-.089-.003-.134a.207.207 0 0 1 .057-.137.36.36 0 0 0 .072-.225.197.197 0 0 1 .04-.13.305.305 0 0 0 .057-.09.257.257 0 0 1 .039-.066 3.861 3.861 0 0 0 .281-.384c.054-.086.155-.192.237-.073a.357.357 0 0 0 .078.084 2.395 2.395 0 0 0 .259.164c.094.053.109-.042.125-.121v-.003a.331.331 0 0 1 .038-.092 1.26 1.26 0 0 1 .202-.247c.043-.038.105-.076.15-.113.018-.016.023-.018.03-.04.009-.022.024-.05.034-.078.01-.027.015-.055.024-.076a.344.344 0 0 0 .044-.098v-.003a.023.023 0 0 0 0-.005v-.007l-.003-.007a.05.05 0 0 0-.021-.024.18.18 0 0 0-.102-.026h-.003a.384.384 0 0 0-.148.031.106.106 0 0 0-.054.054.226.226 0 0 1-.042.063.098.098 0 0 1-.13.006c-.024-.016-.014-.043 0-.063a.414.414 0 0 0 .035-.05.042.042 0 0 0 .005-.025v-.004l-.002-.005a.031.031 0 0 0-.005-.006.046.046 0 0 0-.045-.007.98.98 0 0 0-.083.027.064.064 0 0 1-.094-.047.174.174 0 0 1-.003-.055.055.055 0 0 1 .04-.05c.02-.006.05-.017.046-.042a.079.079 0 0 1 0-.023.052.052 0 0 1 .012-.024.14.14 0 0 1 .03-.025 3.869 3.869 0 0 0 .32-.234.05.05 0 0 1 .064-.01l.01.006a.223.223 0 0 0 .151.02.046.046 0 0 0 .041-.03.025.025 0 0 0 0-.005v-.005l-.002-.006-.003-.004a.071.071 0 0 0-.035-.021l-.058-.021a.269.269 0 0 1-.052-.025.053.053 0 0 1-.025-.059c.023-.113.147-.114.241-.105h.004a.505.505 0 0 0 .14-.022c.06-.021.106-.067.163-.094.057-.027.117-.057.176-.08.018-.006.033-.002.049-.009a.091.091 0 0 0 .035-.025.965.965 0 0 1 .142-.163.822.822 0 0 1 .236-.092.107.107 0 0 1 .03-.006zm-.425.557a.219.219 0 0 0-.105.026c-.009.005-.015.016-.008.024.018.021.049.03.07.05a.16.16 0 0 1 .035.046c.009.019.024.04.033.06a1.296 1.296 0 0 1 .045.123 1.227 1.227 0 0 1 .05.209c.01.057.007.117.01.175v.081c-.001.023-.001.047-.003.07a1.143 1.143 0 0 0-.004.098v.08c.002.07.013.12.044.12a.18.18 0 0 0 .084-.019.175.175 0 0 0 .085-.148 2.026 2.026 0 0 0-.003-.576.51.51 0 0 0-.188-.362.219.219 0 0 0-.144-.057zm3.96.161h5.177c-.017.825-.034 1.6-.05 2.263h-5.13l.004-1.862zm-.006 2.544h5.123a9.697 9.697 0 0 1-.545 2.911 14.495 14.495 0 0 1-1.56 3.118 12.45 12.45 0 0 1-2.415 2.669 10.809 10.809 0 0 1-1.147.848 14.592 14.592 0 0 1-1.96.999c-.224.096-.418.186-.596.247-.193.065-.358.125-.474.156v-.115l.003-7.295a3.552 3.552 0 0 0 .316-.023c.005.015.016.057.031.1a.333.333 0 0 0 .219.166.317.317 0 0 0 .306-.107.373.373 0 0 0 .388.067.235.235 0 0 0 .175-.227.43.43 0 0 0-.033-.208l-.036-.066a3.925 3.925 0 0 0 .744-.41l.02-.006c.373-.094 1.872-.631 2.791-.643a3.28 3.28 0 0 1 1.627.39 2.792 2.792 0 0 1 .682.56c.006.009.013.028.037.032a.036.036 0 0 0 .034-.022 1.139 1.139 0 0 0 .079-.516c-.02-.282-.3-.486-.383-.57-.003-.003-.01-.021.02-.041a.674.674 0 0 1 .105-.085.983.983 0 0 1 .562-.212c.03.003.02-.04.012-.076-.058-.25-.415-.412-.79-.354a.963.963 0 0 0-.613.417c-.007.011-.042.027-.056.013a2.926 2.926 0 0 0-.369-.107c-.045-.01-.021-.044-.019-.05a1.003 1.003 0 0 1 .304-.337 1.125 1.125 0 0 1 .494-.224c.022 0 .022-.03.016-.04a.55.55 0 0 0-.375-.302.844.844 0 0 0-.78.14 1.397 1.397 0 0 0-.445.673c-.014.02-.018.036-.036.032-.099-.02-.345-.007-.367-.022-.015-.007-.012-.03-.009-.045a.91.91 0 0 1 .222-.38.882.882 0 0 1 .364-.286.055.055 0 0 0 .01-.094.98.98 0 0 0-1.22.263 2.192 2.192 0 0 0-.304.696c-.002.009-.017.036-.036.036l-.508.112-.083.019-.022.023a3.29 3.29 0 0 0 .497-1.65zm-12.45.085h5.19v.09a3.145 3.145 0 0 0 .837 2.098H3.556a9.74 9.74 0 0 1-.342-2.188zm.415 2.443h5.863a2.566 2.566 0 0 0 .112.1 3.897 3.897 0 0 0 2.17.898v1.21h-7.22a13.789 13.789 0 0 1-.8-1.827 10.401 10.401 0 0 1-.125-.38zm10.584.29-.01.012h-.002l-.002-.002a3.29 3.29 0 0 0 .015-.01zm1.738.185a.911.911 0 0 0-.507.155.934.934 0 0 0-.392.41 2.65 2.65 0 0 0-.172.775.063.063 0 0 1-.038.035 2.897 2.897 0 0 0-.335.087.026.026 0 0 1-.023-.02 1.105 1.105 0 0 1 .15-.727.886.886 0 0 1 .218-.263.037.037 0 0 0-.017-.068.98.98 0 0 0-.648.114.888.888 0 0 0-.452.667 1.589 1.589 0 0 0 .042.594c0 .006.006.027-.016.031-.076.037-.282.145-.355.18-.005.002-.019.005-.022-.006a.58.58 0 0 0-.268-.358.526.526 0 0 0-.446.022.548.548 0 0 0-.216.224.375.375 0 0 0 .127.455c.006.006.017.02 0 .025-.09.049-.092.06-.16.161a.428.428 0 0 0 .052.45.465.465 0 0 0 .7.082c.004-.003.018.005.025.02a.548.548 0 0 0 .143.151.463.463 0 0 0 .455 0 .413.413 0 0 0 .21-.415.378.378 0 0 0-.111-.262c-.013-.016 0-.024.034-.046a5.404 5.404 0 0 1 1.96-.666 3.121 3.121 0 0 1 1.076.022 1.504 1.504 0 0 1 .629.312 2.841 2.841 0 0 1 .406.402.164.164 0 0 0 .117-.025.66.66 0 0 0 .014-.517 1.604 1.604 0 0 0-.384-.59c-.003-.002-.003-.013-.003-.02-.004-.03.015-.045.052-.079a1.211 1.211 0 0 1 .562-.297c.027-.002.038-.022.02-.053a.656.656 0 0 0-.808-.298h-.001a.916.916 0 0 0-.454.416c-.006.011-.022.05-.037.038-.09-.008-.242-.032-.331-.04-.041-.002-.025-.039-.024-.045a.744.744 0 0 1 .194-.316 1.176 1.176 0 0 1 .444-.318.021.021 0 0 0 .016-.031.627.627 0 0 0-.465-.229.81.81 0 0 0-.617.238 1.255 1.255 0 0 0-.337.74c-.009.023-.02.035-.037.035a2 2 0 0 1-.278.025c-.015-.004-.014-.02-.014-.036a.91.91 0 0 1 .101-.406 1.491 1.491 0 0 1 .55-.582c.036-.025.038-.076.026-.082a.911.911 0 0 0-.355-.071zM4.707 17.692h7.069v2.19H6.213a11.237 11.237 0 0 1-.898-1.181 16.446 16.446 0 0 1-.609-1.01zm10.076 1.176a.497.497 0 0 0-.273.069.982.982 0 0 0-.475.56 1.09 1.09 0 0 0 .012.571c.003.007.012.024-.002.03-.078.03-.136.065-.213.096-.004 0-.024.005-.028-.005a.631.631 0 0 1 .088-.736c.017-.015.027-.035-.008-.047a.588.588 0 0 0-.531.193.677.677 0 0 0-.117.659.922.922 0 0 0 .099.261c.003.005.03.021.014.028l-.15.115c-.003.003-.014.008-.019 0a.486.486 0 0 0-.29-.238.341.341 0 0 0-.317.088.361.361 0 0 0 .147.602c.007.003.017.012.005.02a.587.587 0 0 0-.19.212.377.377 0 0 0 .085.406.37.37 0 0 0 .29.089.605.605 0 0 0 .357-.313c.002-.003.021-.017.031-.006a.531.531 0 0 0 .264.2.324.324 0 0 0 .323-.065.35.35 0 0 0 .111-.4.61.61 0 0 0-.201-.216c-.013-.01-.003-.035.023-.055a2.972 2.972 0 0 1 1.402-.62 1.801 1.801 0 0 1 1.025.166 1.547 1.547 0 0 1 .337.267c.013.007.05.02.063.008a.397.397 0 0 0 .035-.548.654.654 0 0 0-.206-.165.043.043 0 0 1-.007-.015.906.906 0 0 1 .301-.393 1.382 1.382 0 0 1 .295-.143c.022-.006.018-.02.007-.047-.128-.293-.635-.304-.874-.15a1.088 1.088 0 0 0-.346.396c-.005.01-.012.04-.025.031l-.213-.064c-.004 0-.004-.024-.002-.028a1.115 1.115 0 0 1 .696-.565c.015-.006.01-.02.007-.028-.11-.268-.661-.245-.93-.074a1.167 1.167 0 0 0-.493.714c-.003.02.006.037-.007.04a1.239 1.239 0 0 1-.23.055.024.024 0 0 1-.022-.023.642.642 0 0 1 .067-.392 2 2 0 0 1 .324-.408.043.043 0 0 0-.003-.063.497.497 0 0 0-.236-.07zm-3.006 1.296v3.417c-.098-.032-.214-.074-.342-.117-.178-.06-.373-.151-.597-.247a14.587 14.587 0 0 1-1.96-1 10.816 10.816 0 0 1-1.147-.847 12.861 12.861 0 0 1-1.266-1.206h5.31z"/>
+            </symbol>
+        
+            <symbol id="benz" viewBox="0 0 24 24">
+                <path d="m11.344 11.063 0.485 -0.296L18.015 15zm-0.359 -0.235 -0.453 -0.265 0.515 -8.079zm-0.547 -0.031L8.391 12.5l2.453 -1.454z"/><path d="M11.109 0.094C5.016 0.094 0.079 5.031 0.079 11.125s4.938 11.031 11.031 11.031A11.03 11.03 0 0 0 22.141 11.125 11.03 11.03 0 0 0 11.11 0.094zm0 21.454c-2.516 0 -4.875 -0.844 -6.641 -2.375 -1.704 -1.5 -3.031 -3.89 -3.36 -6.422a10.121 10.121 0 0 0 10 8.5c5.594 0 10.125 -4.531 10.125 -10.125 0 -2.329 -0.86 -4.594 -2.188 -6.296 1.329 1.031 2.485 3.954 2.485 6.296 0.016 5.765 -4.656 10.422 -10.422 10.422zm-0.953 -11.22L11.047 1.186h0.079l0.094 9.625 1.531 -0.922L11.22 1.185c5.438 0.046 9.828 4.484 9.828 9.922 0 1.75 -0.453 3.39 -1.25 4.828l-6.891 -5.764 -0.656 0.375 7.5 5.485c-0.016 0.031 -0.031 0.063 -0.063 0.094L11.25 11.265v1.704l8.375 3.234c-1.734 2.891 -4.906 4.828 -8.516 4.828s-6.781 -1.938 -8.516 -4.813l8.376 -3.249V11.25l-8.438 4.844c-0.016 -0.031 -0.031 -0.063 -0.063 -0.094L9.938 10.531l-0.656 -0.375 -6.875 5.735a9.909 9.909 0 0 1 -1.235 -4.796C1.171 5.689 5.499 1.298 10.875 1.172L9.531 9.969l0.625 0.359zM11.109 0.686C5.359 0.688 0.688 5.359 0.688 11.109c0 2.344 0.844 4.547 2.14 6.469 0.438 0.828 0.906 1.329 1.547 2A10.834 10.834 0 0 1 0.281 11.109C0.281 5.125 5.125 0.281 11.109 0.281s10.922 5.063 10.735 10.828c-0.141 -5.625 -5.063 -10.422 -10.735 -10.422z"/>
+            </symbol>
+        
+            <symbol id="lamborghini" viewBox="0 0 24 24"> 
+                <path d="M11.865 0a31.57 31.57 0 0 0-3.712.245l-.272.037-.338.046c-.073.009-.18.026-.236.038a3.7 3.7 0 0 1-.206.036 7.728 7.728 0 0 0-.265.043l-.265.048c-.193.034-.763.15-1.051.215-1.064.238-2.245.594-2.73.824-.343.163-.772.506-.93.743a2.157 2.157 0 0 0-.287.777c-.029.158-.032.23-.034.832-.003.728.009 1.223.044 1.865.166 3.019.696 5.54 1.686 8a20.797 20.797 0 0 0 2.635 4.81c1 1.363 2.12 2.572 3.395 3.67.769.66 1.737 1.405 2.076 1.595.386.217.82.234 1.19.047.3-.153 1.382-.974 2.113-1.604a24.361 24.361 0 0 0 3.119-3.27c.51-.645 1.541-2.254 1.977-3.085 1.622-3.09 2.549-6.883 2.651-10.812.03-.642.045-1.224.03-1.529a4.107 4.107 0 0 0-.017-.228l.001-.397-.165-.343a1.683 1.683 0 0 0-.383-.533c-.196-.205-.372-.321-.783-.519-.997-.48-2.338-.858-3.958-1.118a25.346 25.346 0 0 0-1.552-.216l-.404-.048a7.685 7.685 0 0 0-.41-.037 41.827 41.827 0 0 0-1.988-.12 21.41 21.41 0 0 0-.931-.011zm.167.83c3.34-.007 6.128.436 8.399 1.332.84.33.99.433 1.16.792.128.27.13.31.094 1.691-.197 7.59-2.8 13.219-8.113 17.541-.644.525-1.316 1.003-1.484 1.056-.083.026-.235-.033-.483-.187-.492-.305-1.718-1.303-2.54-2.068-1.352-1.255-2.707-2.937-3.63-4.506-1.97-3.344-2.993-7.244-3.114-11.866-.035-1.35-.032-1.392.096-1.662.17-.357.322-.462 1.13-.777C5.777 1.303 8.132.9 11.357.837c.228-.004.453-.007.675-.007zm-.941.708l-.045.003c-.2.024-.448.206-.567.422-.273.495-.22 1.592.096 1.974.123.15.188.176.421.176.155 0 .334-.04.407-.093.073-.052.19-.207.26-.345.184-.36.188-1.265.007-1.668-.116-.257-.333-.443-.538-.466l-.022-.002h-.02zm1.094.06l-.017 1.233a59.48 59.48 0 0 0-.01 1.184.346.346 0 0 0 .02.06c.025.005.089.009.173.009h.182v-.529c0-.506.005-.527.126-.509.1.015.162.126.307.543l.182.524h.44l-.194-.564-.193-.565.158-.151c.193-.186.253-.456.17-.767-.091-.347-.322-.467-.891-.468zm2.376.06c-.505 0-.733.383-.73 1.228 0 .558.084.91.264 1.113.208.233.66.274.945.084.154-.102.252-.416.255-.808 0-.104-.004-.186-.018-.244-.033-.094-.13-.106-.407-.133l-.235-.023c-.041.024-.044.08-.044.204v.04l.001.018c.006.118.035.138.146.138.118 0 .146.03.146.154 0 .355-.28.512-.49.276-.288-.324-.223-1.56.087-1.66.13-.042.345.115.345.251 0 .052.072.08.205.08.234 0 .26-.079.118-.358a.605.605 0 0 0-.588-.36zm-5.199.038a2.322 2.322 0 0 0-.327.014l-.353.038-.016 1.249-.016 1.249.428-.042c.235-.024.49-.074.569-.111.241-.118.378-.366.383-.695.003-.23-.025-.329-.123-.429-.126-.128-.126-.13-.015-.316a.685.685 0 0 0 .024-.697c-.083-.163-.263-.249-.554-.26zm6.287.074v2.51l.205.024.206.025v-.557c0-.617-.019-.594.427-.519l.22.038v.556c0 .48.014.561.103.585.26.069.253.1.236-1.202l-.016-1.243-.161-.019-.162-.019v.968l-.25-.036c-.41-.058-.397-.04-.397-.562 0-.345-.02-.482-.073-.482a1.04 1.04 0 0 1-.206-.037l-.096-.027zm-7.408.032l-.2.024c-.197.023-.204.034-.357.541-.085.285-.19.626-.232.758l-.077.24-.191-.629c-.105-.346-.212-.652-.238-.68-.025-.028-.128-.033-.228-.01l-.182.04V3.31c0 1.165.005 1.223.113 1.223a.64.64 0 0 0 .19-.03c.058-.023.074-.14.06-.437a6.524 6.524 0 0 1 0-.643c.018-.22.036-.188.248.446l.229.685.212-.768.212-.767.009.36a.236.236 0 0 1 .003.14l.005.173c.014.578.03.667.107.637a.672.672 0 0 1 .204-.036c.108 0 .113-.058.113-1.246zm4.292.14l.248.033c.352.049.5.296.325.541-.08.11-.456.2-.53.125-.023-.024-.043-.192-.043-.372zm-1.462.025c.083.004.163.07.227.2.132.268.122 1.21-.016 1.425-.133.207-.305.207-.438 0-.076-.118-.11-.309-.122-.703-.015-.464 0-.571.105-.74.076-.125.161-.185.244-.182zm-2.007.11h.194c.235 0 .335.09.335.304 0 .19-.08.265-.338.315l-.19.037v-.328zm8.497.005a.083.083 0 0 0-.031.023v2.48l.162.025c.089.013.181.029.206.033.024.005.044-.541.044-1.215 0-.673-.02-1.235-.044-1.25a1.238 1.238 0 0 0-.206-.064zM5.582 2.3a.699.699 0 0 0-.137.025c-.18.05-.182.058-.4 1.025-.12.536-.256 1.13-.3 1.322l-.081.348.186-.04a1.36 1.36 0 0 0 .224-.063c.02-.012.055-.17.078-.352.045-.37.041-.364.334-.42l.213-.041.07.302c.07.296.076.301.258.266a.944.944 0 0 0 .21-.057c.03-.025-.528-2.253-.577-2.304-.01-.01-.039-.014-.078-.011zm12.771.018v1.226c0 .942.017 1.228.074 1.229.04 0 .132.017.204.037.128.035.13.026.147-.694l.016-.73.322.817c.176.45.362.842.411.871.234.14.24.106.224-1.18l-.016-1.24-.162-.043-.162-.044v.668c-.002.767-.008.764-.36-.14-.258-.662-.341-.778-.562-.778zm-14.6.539c-.012 0-.105.03-.207.065l-.185.066v.31l.017.988c.008.47.02.845.046 1.182.011.004.024.002.04-.005.057-.023.321-.122.588-.222.456-.169.485-.19.485-.354 0-.095-.009-.174-.02-.174-.011 0-.174.054-.362.12a5.96 5.96 0 0 1-.362.12c-.011 0-.02-.472-.02-1.048 0-.577-.01-1.048-.02-1.048zm16.502 0c-.011 0-.02.562-.02 1.249v1.249l.19.062c.106.035.198.065.206.069.008.003.015-.557.015-1.246V2.987l-.185-.066a1.991 1.991 0 0 0-.206-.065zm-10.948.206c.263.01.427.297.279.568-.063.115-.14.159-.303.173l-.219.018v-.356c0-.311.015-.36.124-.389a.406.406 0 0 1 .119-.014zm-3.852.003l.078.322c.043.18.057.265.041.316a.05.05 0 0 1-.02.037.13.13 0 0 1-.025.02c-.141.091-.238.063-.2-.06.02-.062.056-.23.08-.374zm6.879 1.66c-.555.013-1.034.17-1.306.446-.243.247-.27.51-.068.645.255.169.673.22 2.168.268 1.368.044 1.532.06 1.77.177.292.145.419.333.41.61-.006.23-.157.477-.293.477-.229 0-.989-.194-1.526-.39a5.355 5.355 0 0 0-.661-.205l-.038-.003c-.144.004-.318.121-.818.551-.22.189-.61.454-.867.59-.834.443-1.091.794-1.207 1.649-.063.463-.14.648-.499 1.187-.298.448-.508 1.05-.51 1.457 0 .197-.07.511-.184.839-.15.433-.184.627-.195 1.122-.012.514-.035.64-.163.879-.093.172-.166.43-.192.674-.037.36-.067.426-.33.74-.159.188-.289.375-.289.415 0 .022-.025.07-.063.128-.008.038-.026.065-.049.068a1 1 0 0 1-.066.083c-.224.26-.334.559-.24.654.049.05.089.034.157-.064.129-.188.203-.165.144.044-.034.12-.028.186.019.207.088.039.422-.014.597-.095.092-.043.16-.153.21-.34.04-.153.114-.327.164-.386.055-.066.101-.265.116-.506.022-.352.051-.431.25-.688.13-.166.267-.437.321-.632.053-.188.137-.423.188-.522.377-.74.62-1.168.663-1.168.13 0 .234.284.234.64 0 .28.024.386.094.426.085.048.086.073.009.228a1.978 1.978 0 0 0-.128.35c-.057.24-.245.497-.442.6-.09.048-.286.208-.436.357-.216.214-.273.31-.272.467.001.264.086.402.185.3.118-.12.172-.085.13.085-.038.154-.032.158.158.12.243-.05.463-.193.504-.327.017-.056.054-.142.082-.191.029-.05.137-.274.242-.5.13-.28.273-.478.453-.628.144-.12.3-.313.348-.428.139-.338.543-.628.543-.388 0 .14-.228.564-.394.733-.209.213-.37.499-.37.657 0 .139.082.18.147.075.064-.106.137-.064.105.06a.334.334 0 0 0-.007.035c.01.03.025.055.045.075.025.007.06.01.112.01.302 0 .587-.174.63-.385a1.5 1.5 0 0 1 .152-.375c.074-.124.1-.242.076-.341-.04-.161.068-.577.15-.577.06 0 .274.447.328.69a.823.823 0 0 0 .156.308c.108.121.155.128.683.098.547-.031.573-.04.715-.217.106-.134.156-.285.18-.547.042-.462.242-.776.7-1.104l.342-.244.084.134c.047.073.147.289.223.479.128.316.133.368.065.64-.041.164-.057.354-.036.423.022.07-.007.256-.065.42l-.045.128-.009.056a.61.61 0 0 0-.014.152l.103.11c.157.172.266.193.316.062.044-.12.155-.116.155.005 0 .127.115.08.248-.1.102-.14.103-.165.016-.416-.052-.148-.081-.315-.067-.371.014-.057 0-.219-.032-.36a2.63 2.63 0 0 1 .011-1.095c.057-.278.05-.339-.083-.63-.081-.177-.136-.334-.123-.347.014-.014.125.015.248.064.57.228 1.015.176 1.286-.15l.138-.167a.154.154 0 0 0 .004-.028l-.329-.03a6.802 6.802 0 0 1-.225-.025c-.199-.033-.286-.105-.604-.389-.294-.262-.304-.282-.273-.516.019-.139-.01-.442-.067-.701-.092-.422-.092-.483-.006-.784.051-.18.093-.407.093-.503 0-.29-.158-.736-.345-.973a1.535 1.535 0 0 1-.238-.462 1.843 1.843 0 0 0-.208-.458c-.136-.204-.14-.229-.059-.425a1.74 1.74 0 0 0 .086-.538c0-.287-.025-.359-.191-.551-.36-.418-.53-.457-2.25-.508-1.985-.06-2.297-.136-1.989-.483.126-.142.332-.138.76.014.469.166 1.042.207 1.377.099.288-.093.293-.088-.206-.194-.08-.017-.147-.06-.147-.097 0-.013.008-.022.021-.029.009-.018.051-.022.13-.013.036.002.078.006.128.013.769.104.897.112.897.053 0-.097-.516-.297-1.055-.408a3.533 3.533 0 0 0-.79-.074zm.213.491a.86.86 0 0 1 .232.054l.254.092-.182.003-.024.001-.031-.002a.627.627 0 0 1-.262-.05c-.103-.067-.08-.103.013-.098Z"/>
+            </symbol> 
+        
+            <symbol id="bmw" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 .78C18.196.78 23.219 5.803 23.219 12c0 6.196-5.022 11.219-11.219 11.219C5.803 23.219.781 18.196.781 12S5.804.78 12 .78zm-.678.63c-.33.014-.66.042-.992.078l-.107 2.944a9.95 9.95 0 0 1 .71-.094l.07-1.988-.013-.137.043.13.664 1.489h.606l.664-1.488.04-.131-.01.137.07 1.988c.232.022.473.054.71.094l-.109-2.944a14.746 14.746 0 0 0-.992-.078l-.653 1.625-.023.12-.023-.12-.655-1.625zm6.696 1.824l-1.543 2.428c.195.15.452.371.617.522l1.453-.754.092-.069-.069.094-.752 1.453c.163.175.398.458.53.63l2.43-1.544a16.135 16.135 0 0 0-.46-.568L18.777 6.44l-.105.092.078-.115.68-1.356-.48-.48-1.356.68-.115.078.091-.106 1.018-1.539c-.18-.152-.351-.291-.57-.46zM5.5 3.785c-.36.037-.638.283-1.393 1.125a18.97 18.97 0 0 0-.757.914l2.074 1.967c.687-.76.966-1.042 1.508-1.613.383-.405.6-.87.216-1.317-.208-.242-.558-.295-.85-.175l-.028.01.01-.026a.7.7 0 0 0-.243-.734.724.724 0 0 0-.537-.15zm.006.615c.136-.037.277.06.308.2.032.14-.056.272-.154.382-.22.25-1.031 1.098-1.031 1.098l-.402-.383c.417-.51.861-.974 1.062-1.158a.55.55 0 0 1 .217-.139zM12 4.883a7.114 7.114 0 0 0-7.08 6.388v.002a7.122 7.122 0 0 0 8.516 7.697 7.112 7.112 0 0 0 5.68-6.97A7.122 7.122 0 0 0 12 4.885v-.002zm-5.537.242c.047 0 .096.013.14.043.088.059.128.16.106.26-.026.119-.125.231-.205.318l-1.045 1.12-.42-.4s.787-.832 1.045-1.099c.102-.106.168-.17.238-.205a.331.331 0 0 1 .14-.037zM12 5.818A6.175 6.175 0 0 1 18.182 12H12v6.182A6.175 6.175 0 0 1 5.818 12H12V5.818Z"/>
+            </symbol>
+            </defs>
+        </svg>
+    <script>
+            /*
+        JS to toggle scroll axis styles
+        */
+        const control = document.getElementById("direction-toggle");
+        const marquees = document.querySelectorAll(".marquee");
+        const wrapper = document.querySelector(".wrapper");
+
+        control.addEventListener("click", () => {
+        control.classList.toggle("toggle--vertical");
+        wrapper.classList.toggle("wrapper--vertical");
+        [...marquees].forEach((marquee) =>
+            marquee.classList.toggle("marquee--vertical")
+        );
+        });
+
+        // header
+        const burgerButton = document.getElementById("burger");
+        const menu = document.getElementById("menu");
+        const overlay = document.querySelector(".overlay");
+        burgerButton.addEventListener("click", function () {
+        burgerButton.classList.toggle("active");
+        overlay.classList.toggle("active");
+        menu.classList.toggle("active");
+        });
+
+        overlay.addEventListener("click", function () {
+        burgerButton.classList.remove("active");
+        overlay.classList.remove("active");
+        menu.classList.remove("active");
+        });
+
+        // dropdown
+        const hasSubMenuElements = document.querySelectorAll(".has_sub_menu");
+
+        const mainElement = document.querySelector("main");
+
+        hasSubMenuElements.forEach(function (element) {
+        element.addEventListener("mouseover", function () {
+            const otherSubMenus = document.querySelectorAll(".sub_menu:not(.active)");
+            otherSubMenus.forEach(function (subMenu) {
+            subMenu.style.display = "none";
+            });
+            const subMenu = this.nextElementSibling;
+            subMenu.style.display = "block";
+        });
+        });
+
+       // invoice start
+        function selectCar() {
+          const carName = document.getElementById("carName").value;
+          const carPrice = document.getElementById("carPrice").value;
+          const carDetails = document.getElementById("carDetails").value;
+      
+          const carInfo = {
+              name: carName,
+              price: carPrice,
+              details: carDetails,
+          };
+      
+          localStorage.setItem("selectedCar", JSON.stringify(carInfo));
+          window.location.href = "invoice.html";
+      }
+      // invoice end
+
+        mainElement.addEventListener("mouseover", function () {
+        const subMenus = document.querySelectorAll(".sub_menu");
+        subMenus.forEach(function (subMenu) {
+            subMenu.style.display = "none";
+        });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const cars = document.querySelectorAll(".marquee__group");
+        
+            cars.forEach((car) => {
+                const sound = car.querySelector("audio");
+        
+                car.addEventListener("mouseenter", () => {
+                    sound.currentTime = 0; // Rewind sound to the beginning
+                    sound.play();
+                });
+        
+                car.addEventListener("mouseleave", () => {
+                    sound.pause();
+                });
+            });
+        });
+          
+    </script>
+  </body>
+  </html>
+
+
+  
